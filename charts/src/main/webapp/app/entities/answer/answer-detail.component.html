@@ -1,0 +1,35 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="answer">
+            <h2><span jhiTranslate="chartsApp.answer.detail.title">Answer</span> {{answer.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="chartsApp.answer.question">Question</span></dt>
+                <dd>
+                    <div *ngIf="answer.question">
+                        <a [routerLink]="['/question', answer.question?.id, 'view']">{{answer.question?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="chartsApp.answer.result">Result</span></dt>
+                <dd>
+                    <div *ngIf="answer.result">
+                        <a [routerLink]="['/answer-scale', answer.result?.id, 'view']">{{answer.result?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/answer', answer.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

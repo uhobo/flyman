@@ -1,0 +1,23 @@
+
+{
+    "chartsApp": {
+        "answerScale" : {
+            "home": {
+                "title": "Answer Scales",
+                "createLabel": "Crear nuevo Answer Scale",
+                "createOrEditLabel": "Crear o editar Answer Scale"
+            },
+            "created": "Un nuevo Answer Scale ha sido creado con el identificador {{ param }}",
+            "updated": "Un Answer Scale ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Answer Scale ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Answer Scale {{ id }}?"
+            },
+            "detail": {
+                "title": "Answer Scale"
+            },
+            "description": "Description",
+            "score": "Score"
+        }
+    }
+}

@@ -1,0 +1,82 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-survey-heading" jhiTranslate="chartsApp.survey.home.createOrEditLabel">Create or edit a Survey</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!survey.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="survey.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="chartsApp.survey.title" for="field_title">Title</label>
+                    <input type="text" class="form-control" name="title" id="field_title"
+                        [(ngModel)]="survey.title" required/>
+                    <div [hidden]="!(editForm.controls.title?.dirty && editForm.controls.title?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.title?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="chartsApp.survey.description" for="field_description">Description</label>
+                    <textarea  class="form-control" name="description" id="field_description" [(ngModel)]="survey.description" ></textarea>
+                </div>
+                <div class="form-group"  >
+                    <label class="form-control-label" jhiTranslate="chartsApp.survey.surveyScale" for="field_surveyScale">Survey Scale</label>
+                   
+                    <span *ngFor="let answerScale of survey.answerScales" >    
+                        <label class="radio-inline" >
+                        <input type="radio" name="answerScale" checked dir="rtl"  [(ngModel)]="survey.answerScales" > {{answerScale.score}} - {{answerScale.description}}
+                        </label>
+                            
+                    </span>
+
+                    <button type="submit" (click) = "this.surveyDataService.setData(survey)"
+                    [routerLink]="['/answer-scale', 'new']"
+                    class="btn btn-primary btn-sm">
+                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                        <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    </button>
+                </div>
+
+                    
+                <div class="form-group">
+                        <ol>
+                                <li *ngFor="let question of survey.questions">
+                                   <dl class="row-md jh-entity-details">
+                                    <dt>
+                                      <span >
+                                            <textarea  class="form-control" name="question{{question.order}}" id="field_question" [(ngModel)]="question.description" ></textarea>  
+                                        </span>    
+                                    </dt>
+                                    <dd>
+                                    <span *ngFor="let answerScale of survey.answerScales" >    
+                                    <label class="radio-inline" >
+                                    <input type="radio" name="answerScale{{question.order}}" checked > {{answerScale.score}} - {{answerScale.description}}
+                                    </label>
+                                    
+                                    </span>
+                                    </dd>
+                                    </dl>
+                                </li>
+                            </ol>
+                </div>
+                
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+                <button type="button" id="new-question" class="btn btn-secondary"  (click)="addQuestion()">
+                        <fa-icon [icon]="'plus'"></fa-icon>&nbsp;<span jhiTranslate="chartsApp.question.home.createLabel">Create new Question</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

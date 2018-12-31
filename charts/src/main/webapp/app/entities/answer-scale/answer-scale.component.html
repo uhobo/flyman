@@ -1,0 +1,56 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="chartsApp.answerScale.home.title">Answer Scales</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-answer-scale" [routerLink]="['/answer-scale/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="chartsApp.answerScale.home.createLabel">
+            Create new Answer Scale
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="answerScales">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="chartsApp.answerScale.description">Description</span></th>
+            <th><span jhiTranslate="chartsApp.answerScale.score">Score</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let answerScale of answerScales ;trackBy: trackId">
+                <td><a [routerLink]="['/answer-scale', answerScale.id, 'view' ]">{{answerScale.id}}</a></td>
+                <td>{{answerScale.description}}</td>
+                <td>{{answerScale.score}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/answer-scale', answerScale.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/answer-scale', answerScale.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'answer-scale/'+ answerScale.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

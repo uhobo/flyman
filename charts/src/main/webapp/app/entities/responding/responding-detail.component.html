@@ -1,0 +1,70 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="responding">
+            <h2><span jhiTranslate="chartsApp.responding.detail.title">Responding</span> {{responding.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="chartsApp.responding.description">Description</span></dt>
+                <dd>
+                    <span>{{responding.description}}</span>
+                </dd>
+                <dt><span jhiTranslate="chartsApp.responding.attributes">Attributes</span></dt>
+                <dd>
+                    <span *ngFor="let attributes of responding.attributes; let last = last">
+                        <a [routerLink]="['/attribute', attributes?.id, 'view' ]">{{attributes.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="chartsApp.responding.surveys">Surveys</span></dt>
+                <dd>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th><span jhiTranslate="chartsApp.survey.description">Description</span></th>
+                            <th><span jhiTranslate="chartsApp.responding.status">Status</span></th>
+                        </tr>
+                        </thead>
+                        <tbody>  
+                        <tr *ngFor="let mySurvey of responding.surveys ;trackBy: trackId"  >
+                            <td>
+                                <div [hidden]="isPublishSurvey(mySurvey.id)">
+                                    <a [routerLink]="['/survey', mySurvey.id, 'view' ]" >{{mySurvey.description}}</a>
+                                </div>
+                                <div [hidden]="!isPublishSurvey(mySurvey.id)">                            
+                                    <a [routerLink]="['/survey-result', mySurvey.id, responding.id, 'view' ]">{{mySurvey.description}}</a>
+                                </div>
+                            </td>
+                            <td>{{responding.surveys.length}}</td>
+                            <td  >
+                                <div class="btn-group flex-btn-group-container" [hidden]="isPublishSurvey(mySurvey.id)">
+                                    <button type="button"
+                                            (click)="publishSurvey(mySurvey)"
+
+                                            class="btn btn-info btn-sm">
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline" jhiTranslate="entity.action.publish">Publish</span>
+                                    </button>
+                                </div>
+                                
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table> 
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/responding', responding.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

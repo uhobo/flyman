@@ -1,0 +1,93 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-attribute-heading" jhiTranslate="chartsApp.attribute.home.createOrEditLabel">Create or edit a Attribute</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!attribute.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="attribute.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="chartsApp.attribute.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                        [(ngModel)]="attribute.name" required/>
+                    <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="chartsApp.attribute.attributeType" for="field_attributeType">attribute Type</label>
+                    <select class="form-control" name="attributeType" id="field_attributeType"
+                        [(ngModel)]="attribute.attributeType" (change)="clearValues()" required>
+                        <option  [ngValue]="attributeType.id === attribute.attributeType?.id ? attribute.attributeType : attributeType" *ngFor="let attributeType of attributeTypes 
+                        ; trackBy: trackAttributeById">{{attributeType.description}}</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.attributeType?.dirty && editForm.controls.attributeType?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.attributeType?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group" [hidden]= !isCheckboxEnabled()>
+                    <label class="checkbox-inline" >
+                        <input type="checkbox" name="isClosedList" [(ngModel)]="attribute.isClosedValueList">Close List
+                    </label>
+                </div>
+
+                <div class="form-group" [hidden]=!attribute.isClosedValueList>
+                    <label class="form-control-label" jhiTranslate="chartsApp.attribute.value" for="field_value">Value</label>
+                    <div *ngIf="isNumberType()">
+                        <input type="number" class="form-control" name="valueId" id="field_value"  [(ngModel)]="inputValue"/>
+                    </div>
+                    <div *ngIf="!isNumberType()">
+                        <input type="text" class="form-control" name="valueId" id="field_value" [(ngModel)]="inputValue"/>
+                    </div>
+                    <button type="button" id="add-value" class="btn btn-secondary" (click)="addValueToList()" >
+                        <span jhiTranslate="chartsApp.attribute.addValue">Add Value</span>
+                        
+                </button>
+                </div>
+
+                <div class="form-group" [hidden]=!attribute.isClosedValueList>
+                        <div class="table-responsive" *ngIf="attribute">
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr *ngFor="let value of valuesList ;trackBy: trackId">
+                                        <td>{{value}}</td>
+                                        <td class="text-right">
+                                            <div class="btn-group flex-btn-group-container">
+                                                <button type="button"
+                                                        class="btn btn-danger btn-sm">
+                                                    <fa-icon [icon]="'times'"></fa-icon>
+                                                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </div>
+    
+
+
+
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

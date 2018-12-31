@@ -1,0 +1,77 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-responding-heading" jhiTranslate="chartsApp.responding.home.createOrEditLabel">Create or edit a Responding</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="chartsApp.responding.description" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                        [(ngModel)]="responding.description" required/>
+                    <div [hidden]="!(editForm.controls.description?.dirty && editForm.controls.description?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.description?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngFor="let attribute of responding.attributes">
+                    <label  >{{attribute.name}}</label>
+                    
+                </div>
+                <div>
+                        <button type="button" id="add-attribute" class="btn btn-secondary" (click)="openAddAttributePopUp()">
+                                <fa-icon [icon]="'plus'"></fa-icon>&nbsp;<span jhiTranslate="chartsApp.responding.addAttribute">Add Attribute</span>
+                        </button>
+                    </div>
+                <div class="form-group">
+                        <label class="form-control-label" jhiTranslate="chartsApp.responding.surveyToFill">Survey to Fill</label>
+                        <div class="table-responsive" *ngIf="responding">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                    <th><span jhiTranslate="chartsApp.responding.survey">Survey</span></th>
+                                    <th><span jhiTranslate="chartsApp.responding.status">Status</span></th>
+                                    <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let mySurvey of responding.surveys ;trackBy: trackId">
+                                        <td><a [routerLink]="['/survey', mySurvey.id, 'view' ]">{{mySurvey.description}}</a></td>
+                                        <td>{{mySurvey.description}}</td>
+                                        <td class="text-right">
+                                            <div class="btn-group flex-btn-group-container">
+                                                <button type="button"
+                                                        [routerLink]="['/', { outlets: { popup: 'responding/'+ mySurvey.id + '/deleteSurevy'} }]"
+                                                        replaceUrl="true"
+                                                        queryParamsHandling="merge"
+                                                        class="btn btn-danger btn-sm">
+                                                    <fa-icon [icon]="'times'"></fa-icon>
+                                                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                </div>
+                <div>
+                    <button type="button" id="add-survey" class="btn btn-secondary" (click)="openAddSurveyPopUp()">
+                            <fa-icon [icon]="'plus'"></fa-icon>&nbsp;<span jhiTranslate="chartsApp.responding.addSurveyToFill">Add survey</span>
+                    </button>
+                </div>
+            </div>
+        </br>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

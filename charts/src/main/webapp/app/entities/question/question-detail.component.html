@@ -1,0 +1,33 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="question">
+            <h2><span jhiTranslate="chartsApp.question.detail.title">Question</span> {{question.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="chartsApp.question.description">Description</span></dt>
+                <dd>
+                    <span>{{question.description}}</span>
+                </dd>
+                <dt><span jhiTranslate="chartsApp.question.answerScale">Answer Scale</span></dt>
+                <dd>
+                    <span *ngFor="let answerScale of question.answerScales; let last = last">
+                        <a [routerLink]="['/answer-scale', answerScale?.id, 'view' ]">{{answerScale.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/question', question.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

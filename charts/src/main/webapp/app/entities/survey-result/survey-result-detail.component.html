@@ -1,0 +1,67 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+            
+            <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+                <h2>{{survey.description}}</h2>
+                <div>    
+                    <jhi-alert-error></jhi-alert-error>
+                    <h3>{{questionIndex}}. {{survey.questions[questionIndex-1].description}}</h3>
+                    <ol>
+                            <li *ngFor="let surveyResult of surveyResults">
+                               <dl class="row-md jh-entity-details">
+                                <dt>
+                                  <span >  
+                                        {{surveyResult.askedResult.asked.description}}
+                                    </span>    
+                                </dt>
+                                <dd>
+                                    <span *ngFor="let answerScale of survey.answerScales" >    
+                                            <label class="radio-inline" >
+                                            <input type="radio" name="{{surveyResult.askedResult.asked.id}}" 
+                                            (change)="onSelectionChange(surveyResult, answerScale.score,  survey.questions[questionIndex-1].questionId)" [checked]="isChecked(surveyResult, answerScale.score, survey.questions[questionIndex-1].questionId)"> 
+                                            {{answerScale.score}} - {{answerScale.description}}
+                                            </label>
+                                        </span>
+                                    </span>
+                                
+
+                                </dd>
+                                </dl>
+                            </li>
+                        </ol>
+                </div>
+                <button type="submit"
+                (click)="previousState()"
+                class="btn btn-info">
+                     <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+                </button>
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save"> Save</span>
+                </button>
+
+                <button type="button"
+                    (click) = "showChart()"
+                     class="btn btn-primary">
+                    <fa-icon [icon]="'faChartBar'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.chart"> Chart</span>
+                </button>
+
+                
+            </form>
+           
+           
+        </div>
+        
+    
+</div>
+<div class="row justify-content-center">
+    <!--
+    <div class="row justify-content-center">
+        <jhi-item-count [page]="questionIndex" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+    </div>
+    -->
+    <div class="row justify-content-center">
+        <ngb-pagination [collectionSize]="totalItems" [(page)]="questionIndex" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(questionIndex)"></ngb-pagination>
+    </div>
+</div>

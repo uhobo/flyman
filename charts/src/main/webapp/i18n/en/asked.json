@@ -1,0 +1,23 @@
+
+{
+    "chartsApp": {
+        "asked" : {
+            "home": {
+                "title": "Askeds",
+                "createLabel": "Create a new Asked",
+                "createOrEditLabel": "Create or edit a Asked"
+            },
+            "created": "A new Asked is created with identifier {{ param }}",
+            "updated": "A Asked is updated with identifier {{ param }}",
+            "deleted": "A Asked is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Asked {{ id }}?"
+            },
+            "detail": {
+                "title": "Asked"
+            },
+            "description": "Description",
+            "attributes": "Attributes"
+        }
+    }
+}

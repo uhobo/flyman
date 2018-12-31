@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #f="ngForm">
+            <h2 id="jhi-answer-scale-heading" jhiTranslate="chartsApp.answerScale.home.createOrEditLabel">Create or edit a Answer Scale</h2>
+            <div *ngFor="let answerScale of answerScaleArray" class="form-inline">
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-inline">
+                        <label class="mr-sm-2" jhiTranslate="chartsApp.answerScale.score" for="field_score">Score</label>
+                        <input type="number"  name="score{{answerScale.score}}"  class="form-control mb-2 mr-sm-2 mb-sm-0"  id="field_score"
+                            [(ngModel)]="answerScale.score" #score{{answerScale.score}}="ngModel" required/>
+                        <div [hidden]="!(f.controls.score?.dirty && f.controls.score?.invalid)">
+                            <small class="form-text text-danger"
+                            [hidden]="!f.controls.score?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
+                            </small>
+                            <small class="form-text text-danger"
+                                [hidden]="!f.controls.score?.errors?.number" jhiTranslate="entity.validation.number">
+                                This field should be a number.
+                            </small>
+                        </div>
+                        
+                        
+        
+               
+                    <label class="mr-sm-2" jhiTranslate="chartsApp.answerScale.description" for="field_description">Description</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" name="description{{answerScale.score}}" id="field_description"
+                        [(ngModel)]="answerScale.description" #description{{answerScale.score}}="ngModel" required/>
+                    <div [hidden]="!(f.controls.description?.dirty && f.controls.description?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!f.controls.description?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+
+                    <div [hidden]="!(f.controls.description?.dirty && f.controls.description?.invalid)">
+                            <small class="form-text text-danger"
+                            [hidden]="!f.controls.description?.errors?.duplicateAnswerScale" jhiTranslate="entity.validation.required">
+                            This field is duplicateAnswerScale.
+                            </small>
+                        </div>
+                         
+                    <button type="submit" 
+                        (click) = "this.removeAnswerScale(answerScale)"
+                        class="btn btn-primary btn-sm">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                        <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                    </button>
+
+                </div>
+                
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="button" id="add-entity"  class="btn btn-secondary" (click)="this.addAnswerScale()">
+                        <fa-icon [icon]="'plus'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.add">Add</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="f.form.invalid" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+
+{
+    "chartsApp": {
+        "asked" : {
+            "home": {
+                "title": "Askeds",
+                "createLabel": "Crear nuevo Asked",
+                "createOrEditLabel": "Crear o editar Asked"
+            },
+            "created": "Un nuevo Asked ha sido creado con el identificador {{ param }}",
+            "updated": "Un Asked ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Asked ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Asked {{ id }}?"
+            },
+            "detail": {
+                "title": "Asked"
+            },
+            "description": "Description",
+            "attributes": "Attributes"
+        }
+    }
+}

@@ -1,0 +1,33 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="asked">
+            <h2><span jhiTranslate="chartsApp.asked.detail.title">Asked</span> {{asked.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="chartsApp.asked.description">Description</span></dt>
+                <dd>
+                    <span>{{asked.description}}</span>
+                </dd>
+                <dt><span jhiTranslate="chartsApp.asked.attributes">Attributes</span></dt>
+                <dd>
+                    <span *ngFor="let attributes of asked.attributes; let last = last">
+                        <a [routerLink]="['/attribute', attributes?.id, 'view' ]">{{attributes.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/asked', asked.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="survey">
+            <h2>{{survey.title}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="chartsApp.survey.title">Title</span></dt>
+                <dd>
+                    <span>{{survey.title}}</span>
+                </dd>
+                <dt><span jhiTranslate="chartsApp.survey.description">Description</span></dt>
+                <dd>
+                    <p  style="white-space: pre-line">{{survey.description}}</p>
+                </dd>
+                
+                <!--
+                <dt>
+                    <span jhiTranslate="chartsApp.survey.surveyScale">Survey Scale</span></dt>
+                </dt>
+                <dd>
+                    <span *ngFor="let answerScale of survey.answerScales" >    
+                            <label class="radio-inline" >
+                            <input type="radio" name="answerScale" checked > {{answerScale.score}} - {{answerScale.description}}
+                            </label>
+                        </span>
+    
+                </dd>
+                 -->
+
+                 <dt><span jhiTranslate="chartsApp.survey.questions">Questions</span></dt>
+                <dd>
+                    <ol>
+                        <li *ngFor="let question of survey.questions">
+                           <dl class="row-md jh-entity-details">
+                            <dt>
+                              <span >  
+                                    {{question.description}}
+                                </span>    
+                            </dt>
+                            <dd>
+                                <span *ngFor="let answerScale of survey.answerScales" >    
+                                        <label class="radio-inline" >
+                                        <input type="radio" name="answerScale{{question.order}}" checked > {{answerScale.score}} - {{answerScale.description}}
+                                        </label>
+                                    </span>
+                            
+                            </span>
+                            </dd>
+                            </dl>
+                        </li>
+                    </ol>
+                   
+                </dd>
+               
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/survey', survey.id, 'edit']"
+                    (click) = "this.surveyDataService.setData(survey)"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

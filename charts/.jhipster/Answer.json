@@ -1,0 +1,27 @@
+{
+    "name": "Answer",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "question",
+            "otherEntityName": "question",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "result",
+            "otherEntityName": "answerScale",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20181103175717",
+    "entityTableName": "answer",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

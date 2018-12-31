@@ -1,0 +1,23 @@
+
+{
+    "chartsApp": {
+        "responding" : {
+            "home": {
+                "title": "Respondings",
+                "createLabel": "Crear nuevo Responding",
+                "createOrEditLabel": "Crear o editar Responding"
+            },
+            "created": "Un nuevo Responding ha sido creado con el identificador {{ param }}",
+            "updated": "Un Responding ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Responding ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Responding {{ id }}?"
+            },
+            "detail": {
+                "title": "Responding"
+            },
+            "description": "Description",
+            "attributes": "Attributes"
+        }
+    }
+}

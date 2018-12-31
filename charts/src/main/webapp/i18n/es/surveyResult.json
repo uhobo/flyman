@@ -1,0 +1,26 @@
+
+{
+    "chartsApp": {
+        "surveyResult" : {
+            "home": {
+                "title": "Survey Results",
+                "createLabel": "Crear nuevo Survey Result",
+                "createOrEditLabel": "Crear o editar Survey Result"
+            },
+            "created": "Un nuevo Survey Result ha sido creado con el identificador {{ param }}",
+            "updated": "Un Survey Result ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Survey Result ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Survey Result {{ id }}?"
+            },
+            "detail": {
+                "title": "Survey Result"
+            },
+            "submitDate": "Submit Date",
+            "survey": "Survey",
+            "asked": "Asked",
+            "responding": "Responding",
+            "answers": "Answers"
+        }
+    }
+}

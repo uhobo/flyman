@@ -1,0 +1,27 @@
+
+{
+    "chartsApp": {
+        "responding" : {
+            "home": {
+                "title": "Respondings",
+                "createLabel": "Create a new Responding",
+                "createOrEditLabel": "Create or edit a Responding"
+            },
+            "created": "A new Responding is created with identifier {{ param }}",
+            "updated": "A Responding is updated with identifier {{ param }}",
+            "deleted": "A Responding is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Responding {{ id }}?"
+            },
+            "detail": {
+                "title": "Responding"
+            },
+            "description": "Description",
+            "survey" : "שאלון",
+            "attributes": "Attributes",
+            "status": "סטטוס",
+            "surveyToFill" : "שאלונים למילוי",
+            "addSurveyToFill": "הוספת שאלון למילוי"
+        }
+    }
+}

@@ -1,0 +1,26 @@
+<form name="addAttributeForm" (ngSubmit)="save()">
+        <div class="modal-header">
+            <h4 class="modal-title" jhiTranslate="attribute.add.title">Add Attribute</h4>      
+        </div>
+        <div class="modal-body">
+            <jhi-alert-error></jhi-alert-error>
+            <div class="form-group">
+                    <label jhiTranslate="chartsApp.attribute.attributes" for="field_survey">Attributes</label>
+                    <select class="form-control" id="field_attributeSelect" multiple name="attributeSelect" [(ngModel)]="selectedAttributes">
+                        <option  [ngValue]="getSelected(unSelectedSurvey, survey)" *ngFor="let attribute of unSelectedAttributes 
+                        ; trackBy: trackAttributeById">{{attribute.name}}</option>
+                    </select>
+                </div>          
+    
+    
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+                <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+            </button>
+            <button id="jhi-confirm-delete-responding" type="submit" class="btn btn-danger">
+                <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.add">Add</span>
+            </button>
+        </div>
+    </form>
+    

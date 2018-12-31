@@ -1,0 +1,23 @@
+
+{
+    "chartsApp": {
+        "question" : {
+            "home": {
+                "title": "Questions",
+                "createLabel": "Crear nuevo Question",
+                "createOrEditLabel": "Crear o editar Question"
+            },
+            "created": "Un nuevo Question ha sido creado con el identificador {{ param }}",
+            "updated": "Un Question ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Question ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Question {{ id }}?"
+            },
+            "detail": {
+                "title": "Question"
+            },
+            "description": "Description",
+            "answerScale": "Answer Scale"
+        }
+    }
+}

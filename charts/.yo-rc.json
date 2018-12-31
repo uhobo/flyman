@@ -1,0 +1,44 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.geller.charts",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "5.5.0",
+    "applicationType": "monolith",
+    "baseName": "charts",
+    "packageName": "com.geller.charts",
+    "packageFolder": "com/geller/charts",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "mongodb",
+    "devDatabaseType": "mongodb",
+    "prodDatabaseType": "mongodb",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "gradle",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "MGY1NWQ0ZTM3MWQ0ODQ3N2Y2MDczMTM3NDExODQ0MjZjM2E4Mjc1NTY5NzQ1YTMwNWNkYmUwZTM2MjRhYTAwMTU4NzY0MTVlYzUyMWJiNDdmZGU2OTRhYWUzMzVmMjUxZTRkOWE0YzA3YzU3NzY0MmM5N2ZjZTcxMjI1MGJmM2Y=",
+    "clientFramework": "angularX",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "otherModules": [
+      {
+        "name": "generator-jhipster-primeng-charts",
+        "version": "1.2.0"
+      }
+    ],
+    "enableTranslation": true,
+    "nativeLanguage": "en",
+    "languages": [
+      "en",
+      "es"
+    ]
+  }
+}
