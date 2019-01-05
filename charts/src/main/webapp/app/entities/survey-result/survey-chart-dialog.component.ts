@@ -34,5 +34,6 @@ export class ChartSurveyDialogComponent implements OnInit{
     }
 
     ngOnInit() {
+        
     }
 }

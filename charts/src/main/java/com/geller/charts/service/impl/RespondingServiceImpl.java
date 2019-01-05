@@ -3,6 +3,7 @@ package com.geller.charts.service.impl;
 import com.geller.charts.service.AskedService;
 import com.geller.charts.service.RespondingService;
 import com.geller.charts.service.SurveyResultService;
+import com.geller.charts.service.SurveyService;
 import com.geller.charts.domain.Asked;
 import com.geller.charts.domain.AskedResult;
 import com.geller.charts.domain.Responding;
@@ -14,7 +15,7 @@ import com.geller.charts.repository.SurveyResultRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,9 @@ public class RespondingServiceImpl implements RespondingService {
     private final Logger log = LoggerFactory.getLogger(RespondingServiceImpl.class);
 
     private RespondingRepository respondingRepository;
+    
+    @Autowired
+    private SurveyService surveyService;
 
     //private SurveyResultService surveyResultService;
     
@@ -52,8 +56,7 @@ public class RespondingServiceImpl implements RespondingService {
     @Override
     public Responding save(Responding responding) {
         log.debug("Request to save Responding : {}", responding);
-     
-        
+        responding.getSurveys().stream().forEach(survey -> {responding.getSurveyIds().add(survey.getId());});
         return respondingRepository.save(responding);
     }
 
@@ -65,7 +68,11 @@ public class RespondingServiceImpl implements RespondingService {
     @Override
     public List<Responding> findAll() {
         log.debug("Request to get all Respondings");
-        return respondingRepository.findAllWithEagerRelationships();
+        List<Responding> list = respondingRepository.findAllWithEagerRelationships();
+        
+        list.stream().forEach(resp -> { resp.getSurveyIds().stream().forEach(id -> {resp.getSurveys().add(this.surveyService.findOne(id).get()); });  });
+        return list;
+       // return respondingRepository.findAllWithEagerRelationships();
     }
 
     /**
@@ -100,6 +107,18 @@ public class RespondingServiceImpl implements RespondingService {
         log.debug("Request to delete Responding : {}", id);
         respondingRepository.deleteById(id);
     }
+    
+    public List<Responding> getRespondingBySurvey(String surveyId){
+    	return respondingRepository.findAllRespondingsBySurveyId(surveyId);
+    }
+
+	public SurveyService getSurveyService() {
+		return surveyService;
+	}
+
+	public void setSurveyService(SurveyService surveyService) {
+		this.surveyService = surveyService;
+	}
 
 	
 }

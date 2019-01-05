@@ -34,6 +34,9 @@ public class Responding implements Serializable {
     @Field("surveys")
     private Set<Survey> surveys = new HashSet<>();
 
+    
+    private Set<String> surveyIds = new HashSet<>();
+    
     //private Set<SurveymetaData> surveysData = new HashSet<>();
     
     
@@ -104,6 +107,14 @@ public class Responding implements Serializable {
 
   
 
+
+	public Set<String> getSurveyIds() {
+		return surveyIds;
+	}
+
+	public void setSurveyIds(Set<String> surveyIds) {
+		this.surveyIds = surveyIds;
+	}
 
 	public Set<Survey> getSurveys() {
 		return surveys;

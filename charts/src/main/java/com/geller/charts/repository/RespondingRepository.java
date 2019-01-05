@@ -24,5 +24,8 @@ public interface RespondingRepository extends MongoRepository<Responding, String
 
     @Query("{'id': ?0}")
     Optional<Responding> findOneWithEagerRelationships(String id);
+    
+    @Query("{'surveyIds': {$contains: [?0]}}")
+    List<Responding> findAllRespondingsBySurveyId(String surveyId);
 
 }

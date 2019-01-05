@@ -7,6 +7,7 @@ import com.geller.charts.service.SurveyService;
 import com.geller.charts.domain.Asked;
 import com.geller.charts.domain.AskedResult;
 import com.geller.charts.domain.RespondingSurveyInput;
+import com.geller.charts.domain.Survey;
 import com.geller.charts.domain.SurveyResult;
 import com.geller.charts.repository.SurveyResultRepository;
 import org.slf4j.Logger;
@@ -167,5 +168,20 @@ public class SurveyResultServiceImpl implements SurveyResultService {
 		
 		return surveyResultList;
 	}
+
+	@Override
+	public void getAllSummrySurveyData() {
+		List<Survey> surveyList = this.surveyService.findAll();
+		
+		for(Survey survey: surveyList) {
+			
+		}
+		
+		
+		
+	}
+	
+	
+	
     
 }

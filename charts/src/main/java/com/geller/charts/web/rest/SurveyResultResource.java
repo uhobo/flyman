@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.geller.charts.domain.RespondingSurveyInput;
 import com.geller.charts.domain.SurveyResult;
 import com.geller.charts.domain.charts.ChartDataWrapper;
+import com.geller.charts.domain.treetable.TreeTableData;
 import com.geller.charts.service.SurveyResultService;
 import com.geller.charts.web.rest.errors.BadRequestAlertException;
 import com.geller.charts.web.rest.util.HeaderUtil;
@@ -150,6 +151,13 @@ public class SurveyResultResource {
         return results;
        
     }
+    
+    public TreeTableData getAllSurveyData() {
+    	TreeTableData tableData = new TreeTableData();
+    	surveyResultService.getAllSummrySurvryData();
+    	return tableData;
+    }
+    
     
     public ChartDataWrapper getChartData(@RequestBody SurveyResult surveyResults[]) {
     	ChartDataWrapper chartDataWrapper = new ChartDataWrapper();

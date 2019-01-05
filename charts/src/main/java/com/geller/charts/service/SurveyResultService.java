@@ -56,4 +56,6 @@ public interface SurveyResultService {
     List<SurveyResult> findBySurveyAndResponding(String surveyId, String respondingId);
 
 	List<SurveyResult> publish(RespondingSurveyInput respondingSurveyInput);
+	
+	void getAllSummrySurveyData();
 }
