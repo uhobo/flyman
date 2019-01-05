@@ -1,10 +1,16 @@
 package com.geller.charts.domain.treetable;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TreeNode {
+public class TreeNode implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private Map<String,String> data = new HashMap<String,String>();
 	private List<TreeNode> children;

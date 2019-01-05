@@ -6,7 +6,7 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { ISurveyResult } from 'app/shared/model/survey-result.model';
 import { Principal } from 'app/core';
 import { SurveyResultService } from './survey-result.service';
-
+import {Message, TreeNode, MenuItem} from 'primeng/components/common/api';
 @Component({
     selector: 'jhi-survey-result',
     templateUrl: './survey-result.component.html'
@@ -15,7 +15,8 @@ export class SurveyResultComponent implements OnInit, OnDestroy {
     surveyResults: ISurveyResult[];
     currentAccount: any;
     eventSubscriber: Subscription;
-
+    menuTree: TreeNode[];
+    selectedMenu: TreeNode;
     constructor(
         private surveyResultService: SurveyResultService,
         private jhiAlertService: JhiAlertService,
@@ -24,12 +25,15 @@ export class SurveyResultComponent implements OnInit, OnDestroy {
     ) {}
 
     loadAll() {
-        this.surveyResultService.query().subscribe(
-            (res: HttpResponse<ISurveyResult[]>) => {
-                this.surveyResults = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        this.surveyResultService.getAllSurveyData().then(result=> {
+            this.menuTree = result.body;
+            this.menuTree = [
+                {label: 'View', icon: 'fa fa-search'},
+                {label: 'Unselect', icon: 'fa fa-close'}
+            ];
+            
+            console.log(this.menuTree);
+        } );
     }
 
     ngOnInit() {
@@ -37,11 +41,11 @@ export class SurveyResultComponent implements OnInit, OnDestroy {
         this.principal.identity().then(account => {
             this.currentAccount = account;
         });
-        this.registerChangeInSurveyResults();
+        //this.registerChangeInSurveyResults();
     }
 
     ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
+       // this.eventManager.destroy(this.eventSubscriber);
     }
 
     trackId(index: number, item: ISurveyResult) {
@@ -54,5 +58,9 @@ export class SurveyResultComponent implements OnInit, OnDestroy {
 
     private onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    nodeSelect(event) {
+        //event.node = selected node
     }
 }

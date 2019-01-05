@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.geller.charts.domain.RespondingSurveyInput;
 import com.geller.charts.domain.SurveyResult;
 import com.geller.charts.domain.charts.ChartDataWrapper;
+import com.geller.charts.domain.menus.MenuItem;
 import com.geller.charts.domain.treetable.TreeTableData;
 import com.geller.charts.service.SurveyResultService;
 import com.geller.charts.web.rest.errors.BadRequestAlertException;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -152,10 +153,11 @@ public class SurveyResultResource {
        
     }
     
-    public TreeTableData getAllSurveyData() {
-    	TreeTableData tableData = new TreeTableData();
-    	//surveyResultService.getAllSummrySurvryData();
-    	return tableData;
+    @GetMapping("/survey-results/getAllSurveyData")
+    @Timed
+    public List<MenuItem> getAllSurveyData() {
+    	
+    	return surveyResultService.getSurveyMenu();
     }
     
     

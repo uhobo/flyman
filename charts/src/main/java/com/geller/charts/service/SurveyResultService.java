@@ -2,6 +2,7 @@ package com.geller.charts.service;
 
 import com.geller.charts.domain.RespondingSurveyInput;
 import com.geller.charts.domain.SurveyResult;
+import com.geller.charts.domain.menus.MenuItem;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,5 +58,5 @@ public interface SurveyResultService {
 
 	List<SurveyResult> publish(RespondingSurveyInput respondingSurveyInput);
 	
-	void getAllSummrySurveyData();
+	List<MenuItem> getSurveyMenu();
 }

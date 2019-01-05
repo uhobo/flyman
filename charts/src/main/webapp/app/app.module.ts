@@ -24,6 +24,7 @@ import { RespondingAddSurveyDialogComponent } from 'app/entities/responding/resp
 import {AttributeAddDialogComponent} from 'app/entities/attribute/attribute-add-dialog.component';
 import * as moment from 'moment';
 import { ChartsDashboardModule } from './dashboard/dashboard.module';
+import { ChartsprimengModule } from './primeng/primeng.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent } from './layouts';
 import { ChartSurveyDialogComponent } from './entities/survey-result/survey-chart-dialog.component';
@@ -38,6 +39,7 @@ import { ChartSurveyDialogComponent } from './entities/survey-result/survey-char
         ChartsHomeModule,
         ChartsAccountModule,
         ChartsDashboardModule,
+        ChartsprimengModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         ChartsEntityModule,
         ReactiveFormsModule

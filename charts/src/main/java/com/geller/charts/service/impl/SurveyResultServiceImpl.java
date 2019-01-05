@@ -6,9 +6,11 @@ import com.geller.charts.service.SurveyResultService;
 import com.geller.charts.service.SurveyService;
 import com.geller.charts.domain.Asked;
 import com.geller.charts.domain.AskedResult;
+import com.geller.charts.domain.Responding;
 import com.geller.charts.domain.RespondingSurveyInput;
 import com.geller.charts.domain.Survey;
 import com.geller.charts.domain.SurveyResult;
+import com.geller.charts.domain.menus.MenuItem;
 import com.geller.charts.repository.SurveyResultRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -170,14 +172,27 @@ public class SurveyResultServiceImpl implements SurveyResultService {
 	}
 
 	@Override
-	public void getAllSummrySurveyData() {
+	public List<MenuItem> getSurveyMenu() {
+		
+		List<MenuItem> menuItems = new ArrayList<>();
+		
 		List<Survey> surveyList = this.surveyService.findAll();
 		
 		for(Survey survey: surveyList) {
-			
+			MenuItem menuItem = new MenuItem();
+			menuItem.setData(survey.getId());
+			menuItem.setLabel(survey.getTitle());
+			List<Responding> respondingList = this.respondingService.getRespondingBySurvey(survey.getId());
+			for(Responding responding: respondingList) {
+				MenuItem child = new MenuItem();
+				child.setData(responding.getId());
+				child.setLabel(responding.getDescription());
+				menuItem.getChildren().add(child);
+			}
+			menuItems.add(menuItem);
 		}
 		
-		
+		return menuItems;
 		
 	}
 	

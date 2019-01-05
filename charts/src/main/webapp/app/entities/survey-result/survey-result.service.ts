@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { ISurveyResult } from 'app/shared/model/survey-result.model';
+import { TreeNode } from 'primeng/components/common/treenode';
 
 type EntityResponseType = HttpResponse<ISurveyResult>;
 type EntityArrayResponseType = HttpResponse<ISurveyResult[]>;
@@ -63,6 +64,11 @@ export class SurveyResultService {
 
     delete(id: string): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    getAllSurveyData(): Promise<HttpResponse<TreeNode[]>>{
+        return this.http.get<TreeNode[]>(`${this.resourceUrl}/getAllSurveyData`,  { observe: 'response' })
+            .pipe().toPromise();
     }
 
     private convertDateArrayFromClient(surveyResult: ISurveyResult[]): ISurveyResult[] {

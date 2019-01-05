@@ -79,4 +79,6 @@ library.add(faTrashAlt);
 library.add(faAsterisk);
 
 import 'chart.js/src/chart.js';
+import 'quill/dist/quill.js';
+ import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
