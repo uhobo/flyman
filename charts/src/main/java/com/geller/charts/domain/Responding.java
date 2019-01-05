@@ -1,7 +1,11 @@
 package com.geller.charts.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import javax.validation.constraints.*;
@@ -30,11 +34,13 @@ public class Responding implements Serializable {
     @Field("attributes")
     private Set<PersonalAttribute> attributes = new HashSet<>();
     
-    @DBRef
-    @Field("surveys")
+  //  @DBRef
+   // @Field("surveys")
+    @Transient
     private Set<Survey> surveys = new HashSet<>();
 
-    
+    @Field("surveyIds")
+    @JsonIgnoreProperties("")
     private Set<String> surveyIds = new HashSet<>();
     
     //private Set<SurveymetaData> surveysData = new HashSet<>();

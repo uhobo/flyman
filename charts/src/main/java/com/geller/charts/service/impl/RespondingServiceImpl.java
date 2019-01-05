@@ -16,6 +16,7 @@ import com.geller.charts.repository.SurveyResultRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.trace.http.HttpTrace.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -70,7 +71,7 @@ public class RespondingServiceImpl implements RespondingService {
         log.debug("Request to get all Respondings");
         List<Responding> list = respondingRepository.findAllWithEagerRelationships();
         
-        list.stream().forEach(resp -> { resp.getSurveyIds().stream().forEach(id -> {resp.getSurveys().add(this.surveyService.findOne(id).get()); });  });
+        list.stream().forEach(resp -> { resp.getSurveyIds().stream().forEach(id -> {initWithData(resp); });  });
         return list;
        // return respondingRepository.findAllWithEagerRelationships();
     }
@@ -94,7 +95,13 @@ public class RespondingServiceImpl implements RespondingService {
     @Override
     public Optional<Responding> findOne(String id) {
         log.debug("Request to get Responding : {}", id);
-        return respondingRepository.findOneWithEagerRelationships(id);
+        Optional<Responding> result = respondingRepository.findOneWithEagerRelationships(id);
+        if(result.isPresent()) {
+        	initWithData(result.get());
+        	
+        }
+        return result;
+        //return respondingRepository.findOneWithEagerRelationships(id);
     }
 
     /**
@@ -120,5 +127,9 @@ public class RespondingServiceImpl implements RespondingService {
 		this.surveyService = surveyService;
 	}
 
-	
+	private void initWithData(Responding result) {
+		for(String surveyId: result.getSurveyIds()) {
+    		result.getSurveys().add(this.surveyService.findOne(surveyId).get());
+    	}
+	}
 }

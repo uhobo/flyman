@@ -154,7 +154,7 @@ public class SurveyResultResource {
     
     public TreeTableData getAllSurveyData() {
     	TreeTableData tableData = new TreeTableData();
-    	surveyResultService.getAllSummrySurvryData();
+    	//surveyResultService.getAllSummrySurvryData();
     	return tableData;
     }
     
