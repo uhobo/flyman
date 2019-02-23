@@ -8,6 +8,7 @@ import { ChartsSurveyModule } from './survey/survey.module';
 import { ChartsSurveyResultModule } from './survey-result/survey-result.module';
 import { ChartsRespondingModule } from './responding/responding.module';
 import { ChartsAskedModule } from './asked/asked.module';
+import { ChartsPersonModule } from './person/person.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -21,6 +22,7 @@ import { ChartsAskedModule } from './asked/asked.module';
         ChartsSurveyResultModule,
         ChartsRespondingModule,
         ChartsAskedModule,
+        ChartsPersonModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

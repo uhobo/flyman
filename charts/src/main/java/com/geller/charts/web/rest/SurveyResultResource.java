@@ -3,6 +3,7 @@ package com.geller.charts.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.geller.charts.domain.RespondingSurveyInput;
 import com.geller.charts.domain.SurveyResult;
+import com.geller.charts.domain.charts.ChartCriteria;
 import com.geller.charts.domain.charts.ChartDataWrapper;
 import com.geller.charts.domain.menus.MenuItem;
 import com.geller.charts.domain.treetable.TreeTableData;
@@ -156,15 +157,14 @@ public class SurveyResultResource {
     @GetMapping("/survey-results/getAllSurveyData")
     @Timed
     public List<MenuItem> getAllSurveyData() {
-    	
+    	//https://www.primefaces.org/primeng/#/tree link for possible options in data 
     	return surveyResultService.getSurveyMenu();
     }
     
-    
-    public ChartDataWrapper getChartData(@RequestBody SurveyResult surveyResults[]) {
-    	ChartDataWrapper chartDataWrapper = new ChartDataWrapper();
-    	
-    	
+    @PostMapping("/survey-results/getChartData")
+    @Timed
+    public ChartDataWrapper getChartData(@Valid @RequestBody ChartCriteria chartCriteria) {
+    	ChartDataWrapper chartDataWrapper = surveyResultService.getChartData(chartCriteria);
     	return chartDataWrapper;
     }
 }

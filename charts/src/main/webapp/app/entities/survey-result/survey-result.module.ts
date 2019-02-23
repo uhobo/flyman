@@ -1,6 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ChartModule } from 'primeng/primeng';
+import { ChartModule, TreeModule, DropdownModule } from 'primeng/primeng';
 import { ChartsSharedModule } from 'app/shared';
 import {
     SurveyResultComponent,
@@ -16,7 +16,7 @@ import { ChartSurveyDialogComponent } from './survey-chart-dialog.component';
 const ENTITY_STATES = [...surveyResultRoute, ...surveyResultPopupRoute];
 
 @NgModule({
-    imports: [ChartsSharedModule,ChartModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [ChartsSharedModule,DropdownModule, ChartModule,TreeModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         SurveyResultComponent,
         SurveyResultDetailComponent,

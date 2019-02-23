@@ -2,6 +2,8 @@ package com.geller.charts.service;
 
 import com.geller.charts.domain.RespondingSurveyInput;
 import com.geller.charts.domain.SurveyResult;
+import com.geller.charts.domain.charts.ChartCriteria;
+import com.geller.charts.domain.charts.ChartDataWrapper;
 import com.geller.charts.domain.menus.MenuItem;
 
 import org.springframework.data.domain.Page;
@@ -59,4 +61,6 @@ public interface SurveyResultService {
 	List<SurveyResult> publish(RespondingSurveyInput respondingSurveyInput);
 	
 	List<MenuItem> getSurveyMenu();
+	
+	ChartDataWrapper getChartData(ChartCriteria chartCriteria);
 }

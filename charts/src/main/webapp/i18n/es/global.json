@@ -106,6 +106,7 @@
                 "surveyResult": "Survey Result",
                 "responding": "Responding",
                 "asked": "Asked",
+                "person": "Person",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

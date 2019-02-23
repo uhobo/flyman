@@ -9,6 +9,8 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { ISurveyResult } from 'app/shared/model/survey-result.model';
 import { TreeNode } from 'primeng/components/common/treenode';
+import { ChartDataWrapper } from 'app/shared/model/surveyChart.model';
+import { ChartCriteria } from 'app/shared/model/chartcriteria.model';
 
 type EntityResponseType = HttpResponse<ISurveyResult>;
 type EntityArrayResponseType = HttpResponse<ISurveyResult[]>;
@@ -70,6 +72,13 @@ export class SurveyResultService {
         return this.http.get<TreeNode[]>(`${this.resourceUrl}/getAllSurveyData`,  { observe: 'response' })
             .pipe().toPromise();
     }
+
+    getChartData(chartCriteria?: ChartCriteria ): Promise<HttpResponse<ChartDataWrapper>>{
+        return this.http.post<ChartDataWrapper>(`${this.resourceUrl}/getChartData`, chartCriteria, { observe: 'response' })
+            .pipe().toPromise();
+    }
+
+
 
     private convertDateArrayFromClient(surveyResult: ISurveyResult[]): ISurveyResult[] {
         let copy: ISurveyResult [] =[];

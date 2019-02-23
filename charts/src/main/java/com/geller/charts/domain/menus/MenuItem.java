@@ -3,19 +3,22 @@ package com.geller.charts.domain.menus;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.geller.charts.domain.inputModel.SelectItem;
+
 public class MenuItem {
 	
 	private String label;
 	private String icon;
-	private String data;
+	private Object data;
 	
 	
 	private List<MenuItem> children = new ArrayList<>();
 	
-	public String getData() {
+	
+	public Object getData() {
 		return data;
 	}
-	public void setData(String data) {
+	public void setData(Object data) {
 		this.data = data;
 	}
 	public String getLabel() {
@@ -36,6 +39,7 @@ public class MenuItem {
 	public void setChildren(List<MenuItem> children) {
 		this.children = children;
 	}
+	
 	
 	
 	

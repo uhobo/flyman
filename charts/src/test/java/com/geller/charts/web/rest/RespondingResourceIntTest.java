@@ -90,7 +90,7 @@ public class RespondingResourceIntTest {
      * if they test an entity which requires the current entity.
      */
     public static Responding createEntity() {
-        Responding responding = new Responding()
+        Responding responding = (Responding) new Responding()
             .description(DEFAULT_DESCRIPTION);
         return responding;
     }

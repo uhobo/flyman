@@ -1,4 +1,11 @@
 
+export class ChartDataWrapper{
+    chartType?: string;
+    chartData?: SurveyChart;
+    options?: ChartOptions;
+}
+
+
 export class SurveyChart{
     labels?:string[] = new Array<string>();
     datasets?: ChartDataSet[] = new Array<ChartDataSet>();

@@ -90,7 +90,7 @@ public class AskedResourceIntTest {
      * if they test an entity which requires the current entity.
      */
     public static Asked createEntity() {
-        Asked asked = new Asked()
+        Asked asked = (Asked) new Asked()
             .description(DEFAULT_DESCRIPTION);
         return asked;
     }

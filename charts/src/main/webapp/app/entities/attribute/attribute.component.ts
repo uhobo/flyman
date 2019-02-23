@@ -55,4 +55,14 @@ export class AttributeComponent implements OnInit, OnDestroy {
     private onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
+    getvalues(attribute:IAttribute):string{
+        
+            if(!attribute.isClosedValueList){
+                return "";
+            }
+            let valuesStr:string = "";
+            attribute.valuesList.forEach(x=> { valuesStr+= x.value + ","});
+            return valuesStr.substr(0, valuesStr.length-1);
+      
+    }
 }

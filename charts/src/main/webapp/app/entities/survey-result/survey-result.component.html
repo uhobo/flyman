@@ -1,5 +1,22 @@
-<div class="row justify-content-center">
-
-    <p-tree [value]="menuTree" selectionMode="single" [(selection)]="selectedMenu"
-    (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="row">
+                <p-tree [value]="menuTree" selectionMode="single" [(selection)]="selectedMenu"
+                (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
+            </div>
+            <div class="row">
+                    <p-dropdown name="selectChartType" [options]="chartTypeList" [(ngModel)]="selectedCharType"
+                    placeholder="Select a Chart Type" [autoWidth]="true"></p-dropdown>
+            </div>
+           
+            <div class="row">
+                    <p-dropdown name="selectCategory" [options]="categoryList" [(ngModel)]="selectedcategory"
+                    placeholder="Select a Category" [autoWidth]="true" (onChange)=categotyChanged()></p-dropdown>
+            </div>
+        </div>
+        <div class="col-xl-10">
+            <p-chart [type]="chartDataWrapper.chartType" [data]="chartDataWrapper.chartData" ></p-chart>
+        </div>
+    </div>
 </div>

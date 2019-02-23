@@ -28,6 +28,10 @@ public interface SurveyResultRepository extends MongoRepository<SurveyResult, St
     @Query("{'surveyId': ?0, 'respondingId': ?1}")
     List<SurveyResult> findBySurveyAndReponsing(String surveyId, String respongingId);
     
+    @Query("{'surveyId': ?0}")
+    List<SurveyResult> findBySurvey(String surveyId);
+    
+    
     @Query("{'respondingId': ?0}")
     List<SurveyResult> findByResponding(String respongingId);
     

@@ -11,9 +11,13 @@ public class PersonalAttribute {
 	@DBRef
 	private AttributeType addributeType;
 	
+	
+	//replace with type Object 
 	@DBRef
 	Set<AttributeValue> selectedAttributesList = new HashSet<>();
 	
+
+	@Deprecated
 	private Object attributeValue;
 
 	public AttributeType getAddributeType() {

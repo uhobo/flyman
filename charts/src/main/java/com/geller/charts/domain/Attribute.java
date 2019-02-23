@@ -30,14 +30,22 @@ public class Attribute implements Serializable {
     @Field("atributeType")
     private AttributeType attributeType;
     
+    //moved to AttributeType
+    @Deprecated
     @NotNull
     @Field("isClosedValueList")
     private Boolean isClosedValueList;
     
+   
+    
+    //TODO replace to Object type -> the type should be taken from attributeType
     @DBRef
     @Field("valuesList")
     private List<AttributeValue> valuesList; 
 
+    private boolean mandatory;
+    
+    
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
         return id;

@@ -7,14 +7,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "attributeType")
 public class AttributeType {
-	 @Id
-	 private String id;
+	@Id
+	private String id;
 	 
-	 private String description;
+	private String description;
 	 
-	 private Boolean enableList;
+	//TODO replace with enum for single,select, multi select
+	private Boolean enableList;
 	  
-	 private String className;
+	 
+	private String className;
 
 	public String getId() {
 		return id;
