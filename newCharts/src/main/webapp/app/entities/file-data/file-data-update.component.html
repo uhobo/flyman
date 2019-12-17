@@ -1,0 +1,96 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-file-data-heading" jhiTranslate="newChartsApp.fileData.home.createOrEditLabel">Create or edit a File Data</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="newChartsApp.fileData.fileName" for="field_fileName">File Name</label>
+                    <input type="text" class="form-control" name="fileName" id="field_fileName"
+                           formControlName="fileName"/>
+                    <div *ngIf="editForm.get('fileName').invalid && (editForm.get('fileName').dirty || editForm.get('fileName').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('fileName').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="newChartsApp.fileData.title" for="field_title">Title</label>
+                    <input type="text" class="form-control" name="title" id="field_title"
+                           formControlName="title"/>
+                    <div *ngIf="editForm.get('title').invalid && (editForm.get('title').dirty || editForm.get('title').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('title').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                        <label class="form-control-label" jhiTranslate="newChartsApp.fileData.series" for="field_series">Series</label>
+                        <div *ngFor="let series of seriesList" class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">{{series.value}}</span>
+                                <input type="text" pInputText  [ngModelOptions]="{standalone: true}"  [(ngModel)]="series.title"/>
+                        </div>
+                </div>
+
+                <div class="form-group">
+                        <p-table [columns]="cols" [value]="data" dataKey="title">
+                            <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of cols">
+                                            {{col.header}}
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" >
+                                    <tr>
+                                        <td *ngFor="let col of cols" >
+                                                
+                                            <p-radioButton *ngIf="col.field == 'topic'; else showGroup" name="topicGroup" [value]="rowData.index" [ngModelOptions]="{standalone: true}"  [(ngModel)]="selectedTopicRow" [inputId]="'topic'+ rowData.index" [disabled]="unSelectedShowRows[rowData.index]"></p-radioButton>
+                                            <ng-template  #showGroup  >
+                                                <p-radioButton *ngIf="col.field == 'group'; else showSelected" name="groupGroup"  [value]="rowData.index"  [ngModelOptions]="{standalone: true}"  [(ngModel)]="selectedGroupRow"  [inputId]="'group'+ rowData.index" [disabled]="unSelectedShowRows[rowData.index]"></p-radioButton>
+                                            </ng-template>
+                                            <ng-template  #showSelected  >
+                                                    <p-checkbox *ngIf="col.field == 'show'; else showContent" name="showGroup"  [value]="rowData.index"  [ngModelOptions]="{standalone: true}"  [(ngModel)]="selectedShowRows"  [inputId]="'show'+ rowData.index" (onChange)="onChageShow(rowData.index)" [disabled]="rowData.disabled"></p-checkbox>
+                                                    <!-- 
+                                                        <p-tableCheckbox *ngIf="col.field == 'show'; else showContent" value="rowData[col.field]" binary="true" (click)="onChangeShow(rowData, $event)" checked="rowData[col.field]"  ></p-tableCheckbox>
+                                                    -->
+                                            </ng-template>
+                                            
+                                         <ng-template #showContent >
+                                                <div pEditableColumn>
+                                                    <p-cellEditor>
+                                                            <ng-template pTemplate="input">
+                                                                <input type="textarea" [ngModelOptions]="{standalone: true}" [(ngModel)]="rowData[col.field]">
+                                                            </ng-template>
+                                                            <ng-template pTemplate="output">
+                                                                    {{rowData[col.field]}}
+                                                            </ng-template>
+                                                        </p-cellEditor>
+                                                </div> 
+                                            </ng-template>
+                                        </td>
+                                        
+                                    </tr>
+                            </ng-template>
+                        </p-table>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

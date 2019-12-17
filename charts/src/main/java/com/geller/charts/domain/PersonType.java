@@ -3,6 +3,7 @@ package com.geller.charts.domain;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "personType")
@@ -10,7 +11,7 @@ public class PersonType {
 	 @Id
 	 private String id;
 	 
-	
+	 @Indexed(unique=true)
 	 private String description;
 	 
 	 private Set<Attribute> templateAttributes;

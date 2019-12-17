@@ -1,0 +1,6 @@
+1. enable filter/show by teacher
+1. show/compare between years (different charts) - merge different charts
+
+
+ERRORS
+1. add condition when no topic was choosen

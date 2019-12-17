@@ -83,8 +83,8 @@ public class AttributeResourceIntTest {
      */
     public static Attribute createEntity() {
         Attribute attribute = new Attribute()
-            .name(DEFAULT_NAME)
-            .attributeType(new AttributeType());
+            .name(DEFAULT_NAME);
+           // .attributeType(new AttributeType());
         return attribute;
     }
 
@@ -109,7 +109,7 @@ public class AttributeResourceIntTest {
         assertThat(attributeList).hasSize(databaseSizeBeforeCreate + 1);
         Attribute testAttribute = attributeList.get(attributeList.size() - 1);
         assertThat(testAttribute.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testAttribute.getAttributeType()).isEqualTo(DEFAULT_VALUE);
+        assertThat(testAttribute.getInputType()).isEqualTo(DEFAULT_VALUE);
     }
 
     @Test
@@ -209,8 +209,8 @@ public class AttributeResourceIntTest {
         // Update the attribute
         Attribute updatedAttribute = attributeRepository.findById(attribute.getId()).get();
         updatedAttribute
-            .name(UPDATED_NAME)
-            .attributeType(new AttributeType());
+            .name(UPDATED_NAME);
+         //   .attributeType(new AttributeType());
 
         restAttributeMockMvc.perform(put("/api/attributes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)

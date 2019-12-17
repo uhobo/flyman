@@ -46,14 +46,6 @@ public class AttributeServiceImpl implements AttributeService {
     @Override
     public Attribute save(Attribute attribute) {
         log.debug("Request to save Attribute : {}", attribute);
-        
-        for(AttributeValue attributeValue: attribute.getValuesList()) {
-        	if(attributeValue.getId() == null) {
-        		log.debug("Create new Attribute Value: {}", attributeValue);
-        		attributeValue = this.attributeValueRepository.save(attributeValue);
-        	}
-        }
-        
         return attributeRepository.save(attribute);
     }
 
@@ -93,14 +85,9 @@ public class AttributeServiceImpl implements AttributeService {
     @Override
     public void delete(String id) {
         log.debug("Request to delete Attribute : {}", id);
-        Optional<Attribute> attribute = this.findOne(id);
-        if(attribute.isPresent()) {
-        	for(AttributeValue attributeValue: attribute.get().getValuesList()) {
-            	log.debug("delete Attribute Value: {}", attributeValue);
-            	this.attributeValueRepository.delete(attributeValue);
-            }	
-        }
-        
         attributeRepository.deleteById(id);
     }
+    
+    
+    
 }

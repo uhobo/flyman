@@ -34,6 +34,7 @@ public class Person implements Serializable {
     private String lastName;
 
     @NotNull
+    
     @Field("description")
     private String description;
 

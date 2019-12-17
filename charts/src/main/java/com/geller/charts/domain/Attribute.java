@@ -3,6 +3,7 @@ package com.geller.charts.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import javax.validation.constraints.*;
 
@@ -14,7 +15,7 @@ import java.util.Objects;
  * A Attribute.
  */
 @Document(collection = "attribute")
-public class Attribute implements Serializable {
+public class Attribute<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,25 +24,21 @@ public class Attribute implements Serializable {
 
     @NotNull
     @Field("name")
+    @Indexed(unique=true)
     private String name;
 
+   	private String description;
+   	 
     @NotNull
-    @DBRef
-    @Field("atributeType")
-    private AttributeType attributeType;
-    
-    //moved to AttributeType
-    @Deprecated
+   	private InputTypeEnum inputType;
+   	  
     @NotNull
-    @Field("isClosedValueList")
-    private Boolean isClosedValueList;
-    
-   
+   	private String className;
+
     
     //TODO replace to Object type -> the type should be taken from attributeType
-    @DBRef
     @Field("valuesList")
-    private List<AttributeValue> valuesList; 
+    private List<T> valuesList; 
 
     private boolean mandatory;
     
@@ -59,7 +56,7 @@ public class Attribute implements Serializable {
         return name;
     }
 
-    public Attribute name(String name) {
+    public Attribute<T> name(String name) {
         this.name = name;
         return this;
     }
@@ -68,10 +65,7 @@ public class Attribute implements Serializable {
         this.name = name;
     }
 
-    public Attribute attributeType(AttributeType attributeType) {
-    	this.attributeType = attributeType;
-    	return this;
-    }
+   
    
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -84,52 +78,30 @@ public class Attribute implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Attribute attribute = (Attribute) o;
+        Attribute<?> attribute = (Attribute<?>) o;
         if (attribute.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), attribute.getId());
     }
 
-    public AttributeType getAttributeType() {
-		return attributeType;
-	}
-
-	public void setAttributeType(AttributeType attributeType) {
-		this.attributeType = attributeType;
-	}
-
 	@Override
     public int hashCode() {
         return Objects.hashCode(getId());
     }
 
+	@Override
+	public String toString() {
+		return "Attribute [id=" + id + ", name=" + name + ", description=" + description + ", inputType=" + inputType
+				+ ", className=" + className + ", valuesList=" + valuesList + ", mandatory=" + mandatory + "]";
+	}
+
     
 
 	
 
-	public Boolean getIsClosedValueList() {
-		return isClosedValueList;
-	}
 
-	public void setIsClosedValueList(Boolean isClosedValueList) {
-		this.isClosedValueList = isClosedValueList;
-	}
 
-	public List<AttributeValue> getValuesList() {
-		return valuesList;
-	}
 
-	public void setValuesList(List<AttributeValue> valuesList) {
-		this.valuesList = valuesList;
-	}
-
-	@Override
-    public String toString() {
-        return "Attribute{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", attributeType='" + getAttributeType() + "'" +
-            "}";
-    }
+	
 }

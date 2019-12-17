@@ -1,6 +1,5 @@
 package com.geller.charts.domain;
 
-import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,8 +11,8 @@ public class AttributeType {
 	 
 	private String description;
 	 
-	//TODO replace with enum for single,select, multi select
-	private Boolean enableList;
+	
+	private InputTypeEnum inputType;
 	  
 	 
 	private String className;
@@ -42,14 +41,15 @@ public class AttributeType {
 		this.className = className;
 	}
 
-	public Boolean getEnableList() {
-		return enableList;
+	public InputTypeEnum getInputType() {
+		return inputType;
 	}
 
-	public void setEnableList(Boolean enableList) {
-		this.enableList = enableList;
+	public void setInputType(InputTypeEnum inputType) {
+		this.inputType = inputType;
 	}
-	  
+
+	
 	  
 	  
 	  

@@ -12,9 +12,6 @@ public class AttributeValue {
 	private String id;
 	
 	@NotNull
-	public String className;
-	
-	@NotNull
 	public Object value;
 
 	public String getId() {
@@ -25,13 +22,7 @@ public class AttributeValue {
 		this.id = id;
 	}
 
-	public String getClassName() {
-		return className;
-	}
-
-	public void setClassName(String className) {
-		this.className = className;
-	}
+	
 
 	public Object getValue() {
 		return value;

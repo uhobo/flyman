@@ -1,0 +1,57 @@
+package com.charts.domain.charts;
+
+import java.io.Serializable;
+import java.util.Map;
+
+
+public class ChartResponse implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Integer chartType;
+	
+	private String chartTypeStr;
+	
+	private ChartData data;
+	
+	private Map<String, Object> options;
+
+	
+	
+	public String getChartTypeStr() {
+		return chartTypeStr;
+	}
+
+	public void setChartTypeStr(String chartTypeStr) {
+		this.chartTypeStr = chartTypeStr;
+	}
+
+	public Integer getChartType() {
+		return chartType;
+	}
+
+	public void setChartType(Integer chartType) {
+		this.chartType = chartType;
+	}
+
+	public ChartData getData() {
+		return data;
+	}
+
+	public void setData(ChartData data) {
+		this.data = data;
+	}
+
+	public Map<String, Object> getOptions() {
+		return options;
+	}
+
+	public void setOptions(Map<String, Object> options) {
+		this.options = options;
+	} 
+	
+	
+	
+}

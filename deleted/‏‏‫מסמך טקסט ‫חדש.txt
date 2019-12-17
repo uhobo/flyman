@@ -1,0 +1,47 @@
+export interface IDiagramDataset{
+    label?: string;
+    backgroundColor?: string;
+    borderColor?: string;
+    data?: number[];
+    
+}
+
+export class DiagramDataset implements IDiagramDataset {
+    constructor(public label?: string, public backgroundColor?: string, public borderColor?: string, public data?: number[]) {}
+ }
+
+  
+export interface IDiagramChart {
+    labels?: string[];
+    datasets?: DiagramDataset[];
+    options?: any;
+}
+
+export class DiagramChart implements IDiagramChart {
+    constructor(public labels?: string[], public datasets?: DiagramDataset[], public options?: any) {}
+ }
+
+
+export interface IPieDataset{
+    label?: string;
+    backgroundColor?: string[];
+    hoverBackgroundColor?: string[];
+    data?: number[];
+}
+
+export class PieDataset implements IPieDataset {
+    constructor(public label?: string, public backgroundColor?: string[], public hoverBackgroundColor?: string[], public data?: number[]) {}
+ }
+
+  
+export interface IPieChart {
+    labels?: string[];
+    datasets?: PieDataset[];
+    options?: any;
+}
+
+export class PieChart implements IPieChart {
+    constructor(public labels?: string[], public datasets?: PieDataset[], public options?: any) {}
+ }
+
+

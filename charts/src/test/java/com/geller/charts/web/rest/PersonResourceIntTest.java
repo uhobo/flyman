@@ -1,9 +1,11 @@
 package com.geller.charts.web.rest;
 
 import com.geller.charts.ChartsApp;
-
+import com.geller.charts.domain.Attribute;
 import com.geller.charts.domain.Person;
+import com.geller.charts.domain.PersonType;
 import com.geller.charts.repository.PersonRepository;
+import com.geller.charts.repository.PersonTypeRepository;
 import com.geller.charts.service.PersonService;
 import com.geller.charts.web.rest.errors.ExceptionTranslator;
 
@@ -16,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -35,6 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @see PersonResource
  */
 @RunWith(SpringRunner.class)
+@ActiveProfiles("dev")
 @SpringBootTest(classes = ChartsApp.class)
 public class PersonResourceIntTest {
 
@@ -53,6 +57,9 @@ public class PersonResourceIntTest {
     @Autowired
     private PersonRepository personRepository;
     
+    
+    private PersonTypeRepository personTypeRepository;
+    
     @Autowired
     private PersonService personService;
 
@@ -68,7 +75,9 @@ public class PersonResourceIntTest {
     private MockMvc restPersonMockMvc;
 
     private Person person;
-
+    
+    List<PersonType> personTypeList;
+    
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -99,8 +108,25 @@ public class PersonResourceIntTest {
     public void initTest() {
         personRepository.deleteAll();
         person = createEntity();
+        personTypeList = personTypeRepository.findAll();
     }
-
+    
+    
+    
+   
+   public void updatePersonTypeWithTemplate() {
+	   for(PersonType type: personTypeList) {
+		   //for each type add attribute for personType
+		   Attribute attribute = new Attribute();
+		   //delete attribute for personType
+		   
+		   
+	   }
+   }
+    
+   
+   
+    
     @Test
     public void createPerson() throws Exception {
         int databaseSizeBeforeCreate = personRepository.findAll().size();
