@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.charts.domain.DataHeader;
@@ -16,6 +17,7 @@ import com.charts.domain.FileData;
 import com.charts.domain.SeriesItem;
 import com.charts.domain.charts.ChartRequest;
 import com.charts.domain.charts.ChartResponse;
+import com.charts.domain.charts.DiagramChart;
 import com.charts.domain.charts.PieChart;
 import com.charts.domain.charts.PieDataset;
 import com.charts.domain.treemenu.TreeNode;
@@ -35,23 +37,11 @@ import net.logstash.logback.encoder.org.apache.commons.lang3.StringUtils;
  *
  */
 @Component(value="seriesDiagramHandler")
+@Scope("prototype")
 public class SeriesDiagramHandler extends DiagramHandler {
 
 	private final Logger log = LoggerFactory.getLogger(SeriesDiagramHandler.class);
 	
-	@Override
-	public void createPackageResult(Optional<FileData> fileData, ChartRequest chartRequest,
-			ChartResponse chartResponse) throws Exception {
-		switch(chartRequest.getChartType()) {
-		case 1: 
-			this.setPieData(chartRequest, fileData.get(), chartResponse);
-			break;
-		case 2:
-			this.setDiagramData(chartRequest, fileData.get(), chartResponse);
-			break;
-		}
-		
-	}
 	
 	protected List<Integer> getSelectedAxisXItemsIndex(List<TreeNode> selectXnodes) throws Exception{
 		List<Integer> selectedAxisX  = new ArrayList<>();
@@ -133,7 +123,7 @@ public class SeriesDiagramHandler extends DiagramHandler {
 
 	}
 
-	private void setPieData(ChartRequest chartRequest, FileData fileData, ChartResponse chartResponse){
+	protected void setPieData(ChartRequest chartRequest, FileData fileData, ChartResponse chartResponse){
     	PieChart pieChart = new PieChart();
     	chartResponse.setChartTypeStr("pie");
     	
@@ -143,7 +133,7 @@ public class SeriesDiagramHandler extends DiagramHandler {
     	List<Double> valueList = new ArrayList<>();
     	
     	//over on each selected category and add its values
-    	fileData.getDataLines().forEach(x -> {
+    	fileData.getDataLines().stream().filter(data-> !data.isDisabled()).forEach(x -> {
     		selectedAxisY.stream().forEach(y -> 
     				valueList.add(getDouble(x.getData().get(y.getIndex())))
 				);
@@ -196,8 +186,26 @@ public class SeriesDiagramHandler extends DiagramHandler {
 									seriesItem.getTitle() + " (" + String.valueOf(seriesItem.getValue()) + ")";
 		}
 	 
-	 protected String getDiagramDataSetLabel(FileData fileData, Integer selectedAxisY) {
+	 protected String getDiagramDataSetLabel(FileData fileData, Integer selectedAxisY, boolean isChartByGroup) {
 			return fileData.getHeaders().get(selectedAxisY).getTitle();
 	 }
+	 
+	 
+	 protected Boolean supportDistrubution() {return false;} 
+	 @Override
+	protected void buildDistributionDiagram(DiagramChart diagramChart) {
+		
+		return;
+	}
+	@Override
+	protected List<Integer> getSelectedItems(TreeNode treeNode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	protected Double getCountForSeries(List<Integer> selectedAxisXList, SeriesItem seriesItem) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

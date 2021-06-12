@@ -1,0 +1,30 @@
+{
+  "newChartsApp": {
+    "fileData": {
+      "home": {
+        "title": "File Data",
+        "createLabel": "Create a new File Data",
+        "createOrEditLabel": "Create or edit a File Data",
+        "notFound": "No File Data found",
+        "uploadLabel": "Upload File"
+   		},
+      "created": "A new File Data is created with identifier {{ param }}",
+      "updated": "A File Data is updated with identifier {{ param }}",
+      "deleted": "A File Data is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete File Data {{ id }}?"
+      },
+      "detail": {
+        "title": "File Data"
+      },
+      "fileName": "File Name",
+      "title": "Title",
+      "timestamp": "Timestamp",
+      "data": "Data",
+      "series": "Series",
+      "category": "Category",
+      "chartType": "Chart Type",
+      "subject" : "Subject"
+    }
+  }
+}

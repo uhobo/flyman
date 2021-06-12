@@ -8,41 +8,82 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import com.charts.domain.FileData;
+import com.charts.domain.SeriesItem;
 import com.charts.domain.charts.ChartRequest;
 import com.charts.domain.charts.ChartResponse;
 import com.charts.domain.charts.DiagramChart;
 import com.charts.domain.charts.DiagramDataset;
 import com.charts.domain.treemenu.TreeNode;
+import com.charts.service.util.ChartAppUtil;
 import com.charts.service.util.ColorUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public abstract class DiagramHandler {
 
-	protected final ObjectMapper obj = new ObjectMapper();
+	protected static final ObjectMapper obj = new ObjectMapper();
+	private final Logger log = LoggerFactory.getLogger(TopicDiagramHandler.class);
+	
+	protected FileData fileData;
+	protected ChartRequest chartRequest;
+	protected List<Integer> selectedAxisXIds;
+	protected List<Integer> selectedAxisYIds;
 	
 	public void createPackageResult(Optional<FileData> fileData, ChartRequest chartRequest,
 			ChartResponse chartResponse) throws Exception {
-		this.setDiagramData(chartRequest, fileData.get(), chartResponse);
+		this.chartRequest = chartRequest;
+		this.fileData = fileData.get();
+		
+		switch(chartRequest.getChartType()) {
+		case 1: 
+			this.setPieData(chartRequest, fileData.get(), chartResponse);
+			break;
+		case 2:
+			this.setDiagramData(chartRequest, chartResponse);
+			break;
+		}
+		
 	}
 	
+	protected void setPieData(ChartRequest chartRequest2, FileData fileData2, ChartResponse chartResponse) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	protected abstract List<Integer> getSelectedAxisXItemsIndex(List<TreeNode> selectXnodes) throws Exception;
 	protected abstract List<Integer> getSelectedAxisYItemsIndex(List<TreeNode> selectYnodes);
-	protected abstract String getDiagramDataSetLabel(FileData fileData, Integer selectedAxisY);
+	protected abstract String getDiagramDataSetLabel(FileData fileData, Integer selectedAxisY, boolean isChartByGroup);
 	protected abstract List<Double> getDataSetData(List<Integer> selectedAxisXList, Integer selectedAxisYindex, FileData fileData, Map<Integer, Double> valuesMap);
-	
-	protected void setDiagramData(ChartRequest chartRequest,  FileData fileData, ChartResponse chartResponse) throws Exception{
+	protected abstract List<Integer> getSelectedItems(TreeNode treeNode);
+	protected abstract Double getCountForSeries(List<Integer> selectedAxisXList, SeriesItem seriesItem);
+	protected Boolean supportDistrubution() {return true;}
+	protected void setDiagramData(ChartRequest chartRequest, ChartResponse chartResponse) throws Exception{
 	 	
     	DiagramChart diagramChart = new DiagramChart();
     	chartResponse.setChartTypeStr("bar");
-    	List<Integer> selectedAxisXIds  = getSelectedAxisXItemsIndex(chartRequest.getSelectXnodes());
-    	List<Integer> selectedAxisYIds  = getSelectedAxisYItemsIndex(chartRequest.getSelectYnodes());
     	
+    	this.selectedAxisXIds  = getSelectedAxisXItemsIndex(chartRequest.getSelectXnodes());
+    	this.selectedAxisYIds  = getSelectedAxisYItemsIndex(chartRequest.getSelectYnodes());
+    	
+    	log.debug("selectedAxisXIds: " + obj.writeValueAsString(selectedAxisXIds));
+    	log.debug("selectedAxisYIds " + obj.writeValueAsString(selectedAxisYIds));
     	List<String> labelsList = chartRequest.getSelectXnodes().stream().filter(x -> x.isLeaf()).map(TreeNode::getLabel).collect(Collectors.toList());
+    	log.debug("labelsList: " + obj.writeValueAsString(labelsList));
+    	
     	diagramChart.setLabels(labelsList);
+    	
+    	if(this.supportDistrubution() && this.chartRequest.getDistrubution()) {
+    		buildDistributionDiagram(diagramChart);
+    		chartResponse.setOptions(diagramChart.getOptions());
+        	chartResponse.setData(diagramChart);
+    		return;
+    	}
+    	
     	
     	Map<Integer, Double> valuesMap = initializeDataMap(selectedAxisXIds);
     	
@@ -61,8 +102,9 @@ public abstract class DiagramHandler {
     	
     	Integer itrIndex = 0;
     	for(Integer selectedAxisY : selectedAxisYIds){
+    		
     		DiagramDataset diagramDataset = new DiagramDataset();
-    		diagramDataset.setLabel(getDiagramDataSetLabel(fileData, selectedAxisY));
+    		diagramDataset.setLabel(getDiagramDataSetLabel(fileData, selectedAxisY,chartRequest.isChartByGroup()));
     		String color = ColorUtil.allocateColor(itrIndex++);
     		diagramDataset.setBackgroundColor(color);
     		diagramDataset.setBorderColor(color);
@@ -130,8 +172,45 @@ public abstract class DiagramHandler {
     }
  
 	
+	protected void buildDistributionDiagram(DiagramChart diagramChart) {
+		
+		List<TreeNode> selectedNodeList = chartRequest.getSelectXnodes().stream().filter(x -> x.isLeaf()).collect(Collectors.toList());
+		//log.debug("labelsList: " + obj.writeValueAsString(labelsList));
+		//Set<String> labelList = new HashSet<String>();
+		diagramChart.getLabels().add("Total");
+		
+		
+		Integer itrIndex = 1;
+		
+		
+		for(SeriesItem seriesItem : fileData.getSeriesList()) {
+			DiagramDataset diagramDataset = new DiagramDataset();
+			diagramDataset.setLabel(ChartAppUtil.getSeriesLabel(seriesItem));
+			String color = ColorUtil.allocateColor(itrIndex++);
+    		diagramDataset.setBackgroundColor(color);
+    		diagramDataset.setBorderColor(color);
+    		Double totalCount = Double.valueOf(0);
+    		for(TreeNode treeNode: selectedNodeList) {
+    			List<Integer> selectedAxisXList =  getSelectedItems(treeNode);
+    			Double count= getCountForSeries(selectedAxisXList, seriesItem);
+    			totalCount+=count;
+        		diagramDataset.getData().add(count );
+    		}
+    		diagramDataset.getData().add(totalCount);
+	    	diagramChart.getDatasets().add(diagramDataset);
+			
+		}
+		//Add DiagramDataset total for each series 
+		
+				
+		
+		
+	}
+
 	
 	
+	
+
 	protected Double getDouble(Object value) {
 		if(value == null || StringUtils.isEmpty(value.toString())) {
 			return Double.valueOf(0);
@@ -165,4 +244,6 @@ public abstract class DiagramHandler {
             return (tempList.get(middle-1) + tempList.get(middle)) / 2.0;
         }
 	 }
+
+	
 }

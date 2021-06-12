@@ -13,7 +13,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import {ChartModule} from 'primeng/chart';
 import {SidebarModule} from 'primeng/sidebar';
 import {TreeModule} from 'primeng/tree';
-import {TreeNode} from 'primeng/api';
+import {DynamicDialogModule} from 'primeng/dynamicdialog';
 
 import {
   FileDataComponent,
@@ -24,22 +24,23 @@ import {
   FileDataDeleteDialogComponent,
   fileDataRoute,
   fileDataPopupRoute
-  
 } from './';
+import { FileDataDynamicDialogComponent } from './file-data-dynamic-dialog.component';
 
 const ENTITY_STATES = [...fileDataRoute, ...fileDataPopupRoute];
 
 @NgModule({
-  imports: [NewChartsSharedModule, FileUploadModule, TableModule, TreeModule, RadioButtonModule, CheckboxModule, DropdownModule, ChartModule, SidebarModule, RouterModule.forChild(ENTITY_STATES)],
+  imports: [NewChartsSharedModule, FileUploadModule, TableModule, TreeModule, RadioButtonModule, DynamicDialogModule, CheckboxModule, DropdownModule, ChartModule, SidebarModule, RouterModule.forChild(ENTITY_STATES)],
   declarations: [
     FileDataComponent,
     FileDataDetailComponent,
     FileDataUpdateComponent,
     FileDataChartComponent,
     FileDataDeleteDialogComponent,
-    FileDataDeletePopupComponent
+    FileDataDeletePopupComponent,
+    FileDataDynamicDialogComponent
   ],
-  entryComponents: [FileDataComponent, FileDataUpdateComponent, FileDataChartComponent,FileDataDeleteDialogComponent, FileDataDeletePopupComponent],
+  entryComponents: [FileDataComponent, FileDataUpdateComponent, FileDataChartComponent,FileDataDeleteDialogComponent, FileDataDeletePopupComponent, FileDataDynamicDialogComponent],
   providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

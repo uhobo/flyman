@@ -42,6 +42,9 @@
             <fa-icon [icon]="'file-excel'"></fa-icon>
             &nbsp;<span jhiTranslate="entity.action.excel"> Export Excel</span>
             </button>
+            <button (click)="saveChart()" id="save-entity" class="btn btn-primary">
+                <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+            </button>
             </div>
 
    
@@ -52,26 +55,33 @@
         <div class="ui-g" *ngIf="checkBoxstatisticsHidden === false">
                 <div class="ui-g-4" >
                         <p-checkbox  name="averageCheckBox" [value]="averageCheckBox.value" [label]="averageCheckBox.label" 
-                        [(ngModel)]="isSelectAverageCheckBox"></p-checkbox>
+                        [(ngModel)]="isSelectAverageCheckBox" ></p-checkbox>
                 </div>
                 <div class="ui-g-4" >
                     <p-checkbox  name="medianCheckBox" [value]="medianCheckBox.value" [label]="medianCheckBox.label" 
                         [(ngModel)]="isSelectMedianCheckBox"></p-checkbox>
                 </div>    
         </div>
-    
-        <div *ngIf="checkBoxListXHidden === false" class="ui-lg">
-            <div class="ui-lg-6">
-                <p-tree [value]="axisXTree" selectionMode="checkbox" [(selection)]="selectedXnodes" ></p-tree>
+        <div class="ui-g" >
+            <div class="ui-g-4">
+                <p-checkbox  name="distributionCheckBox" [value]="distributionCheckBox.value" [label]="distributionCheckBox.label" 
+                [(ngModel)]="isSelectDistribution" ></p-checkbox>
             </div>
+            <div class="ui-g-4" *ngIf="checkBoxGroupHidden === false">
+                <p-checkbox  name="groupCheckBox" [value]="groupCheckBox.value" [label]="groupCheckBox.label" 
+                [(ngModel)]="isSelectGroupCheckBox" (onChange)="setTreeFields()"></p-checkbox>
+            </div>  
         </div>
-        
+        <div class="ui-lg" *ngIf="checkBoxListXHidden === false" >          
+                <div class="ui-lg-6">
+                    <p-tree [value]="axisXTree" selectionMode="checkbox" [(selection)]="selectedXnodes" [style]="{'width':'100%'}" ></p-tree>
+                </div>
+        </div> 
         <div *ngIf="checkBoxListYHidden === false" class="ui-lg"> 
                 <div class="ui-lg-6">
-                <p-tree [value]="axisYTree" selectionMode="checkbox" [(selection)]="selectedYnodes" ></p-tree> 
+                <p-tree [value]="axisYTree" selectionMode="checkbox" [(selection)]="selectedYnodes" [style]="{'width':'100%'}" ></p-tree> 
             </div>  
        </div>
-
         <button pButton type="button" (click)="sidebarSave()" label="Save" class="ui-button-success"></button>
         <button pButton type="button" (click)="visibleSidebar1 = false" label="Cancel" class="ui-button-secondary"></button>
 </p-sidebar>

@@ -36,10 +36,23 @@ public class DiagramChart extends ChartData{
 		yAxes.put("xAxes", Arrays.asList(xticks));
 		Map<String, Object> options = new HashMap<>();
 		options.put("scales", yAxes);
+		addToolTipOption(options);
+		
+		
 		return options;
 	}
+
+	private void addToolTipOption(Map<String, Object> options) {
+		options.put("tooltips", createParam("intersect", false));
+		
+	}
 	
-	
+	Map<String, Object> createParam(String name, Object value){
+
+		Map<String, Object> map = new HashMap<>();
+		map.put(name, value);
+		return map;
+	}
 	
 	
 	

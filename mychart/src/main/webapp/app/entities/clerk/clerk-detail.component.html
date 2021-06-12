@@ -1,0 +1,31 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="clerk">
+            <h2><span jhiTranslate="mychartApp.clerk.detail.title">Clerk</span> {{clerk.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="mychartApp.clerk.firstName">First Name</span></dt>
+                <dd>
+                    <span>{{clerk.firstName}}</span>
+                </dd>
+                <dt><span jhiTranslate="mychartApp.clerk.lastName">Last Name</span></dt>
+                <dd>
+                    <span>{{clerk.lastName}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/clerk', clerk.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

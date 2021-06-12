@@ -2,6 +2,12 @@ package com.charts.domain;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.*;
 
@@ -138,7 +144,7 @@ public class FileData implements Serializable {
 			dataLine.setData(item);
 			this.dataLines.add(dataLine);
 			Integer currentIndex = this.dataLines.size();
-			dataLine.setLineNum(currentIndex);
+			dataLine.setLineNum(currentIndex-1);
 			for(Integer dataItemInx=0; dataItemInx < item.size(); dataItemInx++) {
 				// -1 because the sublist(1,importData.getData().size()) command 
 				if(importData.getErrorSuspect().get(currentIndex-1 + "_" + dataItemInx)  == null) {
@@ -210,11 +216,14 @@ public class FileData implements Serializable {
 
     @Override
     public String toString() {
-        return "FileData{" +
-            "id=" + getId() +
-            ", fileName='" + getFileName() + "'" +
-            ", title='" + getTitle() + "'" +
-            ", timestamp='" + getTimestamp() + "'" +
-            "}";
+    	ObjectMapper map = new ObjectMapper();
+		try {
+			map.setSerializationInclusion(Include.NON_NULL);
+			return map.writeValueAsString(this);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
     }
 }

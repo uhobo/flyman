@@ -13,7 +13,8 @@ import {SelectItem, TreeNode, Message} from 'primeng/api';
 import { throwStatement, breakStatement } from '@babel/types';
 import {Observable} from 'rxjs';
 import { TreeNodeService } from 'app/primeng/data/tree/service/treenode.service';
-import { threadId } from 'worker_threads';
+import { DialogService } from 'primeng/api';
+import { FileDataDynamicDialogComponent } from './file-data-dynamic-dialog.component';
 
 enum SubjectType{
   SERIE =1,
@@ -23,7 +24,8 @@ enum SubjectType{
 
 @Component({
   selector: 'jhi-file-data-detail',
-  templateUrl: './file-data-chart.component.html'
+  templateUrl: './file-data-chart.component.html',
+  providers: [DialogService]
 })
 export class FileDataChartComponent implements OnInit {
   msgs: Message[] = [];
@@ -42,25 +44,22 @@ export class FileDataChartComponent implements OnInit {
   subjectlist:SelectItem[];
   selectedSubject: number;
 
-  //checkBoxListX:SelectItem[];
-  //checkBoxListY:SelectItem[];
   checkBoxListXHidden:boolean;
   checkBoxListYHidden:boolean;
- // axisXLabel:string;
- // axisYLabel:string;
-  
-  //selectAllcheckBox:SelectItem;
-  //isSelctAllCheckBoxX: number[];
-  //isSelctAllCheckBoxY: number[];
-
+ 
   averageCheckBox:SelectItem;
   medianCheckBox:SelectItem;
   checkBoxstatisticsHidden:boolean;
   isSelectAverageCheckBox:number[];
   isSelectMedianCheckBox:number[];
+  
+  groupCheckBox:SelectItem;
+  isSelectGroupCheckBox:number[];
+  checkBoxGroupHidden:boolean;
 
-  //selectedAxisXValues: number[];
-  //selectedAxisYValues: number[];
+  distributionCheckBox:SelectItem;
+  isSelectDistribution:number[];
+  
 
   chartReponse: ChartResponse;
   visibleSidebar1: boolean;
@@ -72,19 +71,24 @@ export class FileDataChartComponent implements OnInit {
   axisYTree: TreeNode[];
   selectedYnodes:TreeNode[];
 
-  constructor(protected activatedRoute: ActivatedRoute, protected fileDataService: FileDataService, protected jhiAlertService: JhiAlertService) {}
+  constructor(protected activatedRoute: ActivatedRoute, protected fileDataService: FileDataService, protected jhiAlertService: JhiAlertService, protected dialogService: DialogService) {}
 
   ngOnInit() {
     this.activatedRoute.data.subscribe(({ fileData }) => {
       this.fileData = fileData;
       this.visibleSidebar1 = false; 
       this.chartDisplay = new ChartDisplay();
-      //this.selectAllcheckBox = {label: 'Select All', value: -1};
       this.averageCheckBox = {label: 'Average', value: 1};
       this.medianCheckBox ={label: 'Median', value: 1};
       this.isSelectAverageCheckBox = [];
       this.isSelectMedianCheckBox =[];
      
+      this.groupCheckBox = {label: 'Group', value: 1};
+      this.isSelectGroupCheckBox = [];
+      this.checkBoxGroupHidden = true;
+
+      this.distributionCheckBox ={label: 'Distribution', value: 1};
+      this.isSelectDistribution = [];
 
       this.categorylist = [];
       this.fileData.headers.forEach(element => {
@@ -115,7 +119,6 @@ export class FileDataChartComponent implements OnInit {
       this.chartTypelist.push({label: 'Diagram', value: 2});
       this.selectedChartType = 2;
       this.chartTypeHidden = true;
-      //this.setFields();
       this.setTreeFields();
       
       
@@ -131,23 +134,27 @@ export class FileDataChartComponent implements OnInit {
     this.checkBoxstatisticsHidden = false;
     this.checkBoxListXHidden = false;
     this.checkBoxListYHidden = false;
+
+    if(this.fileData.groupColIndex || this.fileData.groupColIndex === 0){
+      this.checkBoxGroupHidden = false;
+    }
+    
     switch(this.selectedSubject){
       case SubjectType.SERIE:
 
           this.chartTypeHidden = false;
+          this.checkBoxGroupHidden = true;
           if(this.selectedChartType === 1){
               this.checkBoxstatisticsHidden = true;
               this.checkBoxListXHidden = true;
           }
-        this.fileDataService.createTreeMenu(this.fileData.id, SubjectType.SERIE).then(
+        this.fileDataService.createTreeMenu(this.fileData.id, SubjectType.SERIE, this.isSelectGroupCheckBox.length>0).then(
             (res: HttpResponse<TreeNode[]>) => {
               this.axisXTree  = res.body;
               this.fillSelectedNodes(this.axisXTree, this.selectedXnodes);
-              // this.fillAxisXTree();
-               this.fileDataService.createTreeMenu(this.fileData.id, SubjectType.CATEGORY).then(
+               this.fileDataService.createTreeMenu(this.fileData.id, SubjectType.CATEGORY, this.isSelectGroupCheckBox.length>0).then(
                 (res: HttpResponse<TreeNode[]>) => {
                   this.axisYTree  = res.body;
-                  //this.fillAxisYTree();
                   this.fillSelectedNodes(this.axisYTree, this.selectedYnodes);
                   this.showChart();
                 },
@@ -159,16 +166,14 @@ export class FileDataChartComponent implements OnInit {
 
       break;
       case SubjectType.CATEGORY:
-          this.fileDataService.createTreeMenu(this.fileData.id, SubjectType.CATEGORY).then(
+          this.fileDataService.createTreeMenu(this.fileData.id, SubjectType.CATEGORY, this.isSelectGroupCheckBox.length>0).then(
             (res: HttpResponse<TreeNode[]>) => {
                this.axisXTree  = res.body;
                this.fillSelectedNodes(this.axisXTree, this.selectedXnodes);
-                //this.fillAxisXTree();
-                this.fileDataService.createTreeMenu(this.fileData.id, SubjectType.TOPIC).then(
+                this.fileDataService.createTreeMenu(this.fileData.id, SubjectType.TOPIC, this.isSelectGroupCheckBox.length >0 ).then(
                   (res: HttpResponse<TreeNode[]>) => {
                       this.axisYTree  = res.body;
                       this.fillSelectedNodes(this.axisYTree, this.selectedYnodes);
-                      //this.fillAxisYTree();
                       this.showChart();
                     },
                   (res: HttpErrorResponse) => this.onError(res.message));
@@ -178,16 +183,14 @@ export class FileDataChartComponent implements OnInit {
            
       break;   
       case SubjectType.TOPIC:
-          this.fileDataService.createTreeMenu(this.fileData.id, SubjectType.TOPIC).then(
+          this.fileDataService.createTreeMenu(this.fileData.id, SubjectType.TOPIC, this.isSelectGroupCheckBox.length>0).then(
             (res: HttpResponse<TreeNode[]>) => {
               this.axisXTree  = res.body;
               this.fillSelectedNodes(this.axisXTree, this.selectedXnodes);
-               //this.fillAxisXTree();
-               this.fileDataService.createTreeMenu(this.fileData.id, SubjectType.CATEGORY).then(
+               this.fileDataService.createTreeMenu(this.fileData.id, SubjectType.CATEGORY, this.isSelectGroupCheckBox.length>0).then(
                 (res: HttpResponse<TreeNode[]>) => {
                   this.axisYTree  = res.body;
                   this.fillSelectedNodes(this.axisYTree, this.selectedYnodes);
-                  //this.fillAxisYTree();
                   this.showChart();
                 },
                 (res: HttpErrorResponse) => this.onError(res.message));
@@ -200,25 +203,6 @@ export class FileDataChartComponent implements OnInit {
     }
   }
 
-
-  fillAxisXTree(){
-    this.axisXTree.forEach(elm => {
-      this.selectedXnodes.push(elm);
-      elm.children.forEach(child => {
-        this.selectedXnodes.push(child);
-      });
-    });
-  }
-
-  fillAxisYTree(){
-    this.axisYTree.forEach(elm => {
-      this.selectedYnodes.push(elm);
-      elm.children.forEach(child => {
-        this.selectedYnodes.push(child);
-
-      });
-    });
-  }
   fillSelectedNodes(sourceTree:TreeNode[], destTree:TreeNode[]){
     sourceTree.forEach(elm => {
       destTree.push(elm);
@@ -242,8 +226,9 @@ export class FileDataChartComponent implements OnInit {
       this.chartRequet.selectYnodes = this.trimSelectedXnodes(this.selectedYnodes);
       this.chartRequet.selectedSubject = this.selectedSubject;
       this.chartRequet.includeAverage = this.isSelectAverageCheckBox.length > 0;
-      this. chartRequet.includeMedian = this.isSelectMedianCheckBox.length > 0;
-      
+      this.chartRequet.includeMedian = this.isSelectMedianCheckBox.length > 0;
+      this.chartRequet.chartByGroup = this.isSelectGroupCheckBox.length > 0;
+      this.chartRequet.distrubution = this.isSelectDistribution.length > 0;
       this.fileDataService.getChartData(this.chartRequet).subscribe(
         (res: HttpResponse<ChartResponse>) => this.chartReponse = res.body,
         (res: HttpErrorResponse) => this.onError(res.message)); 
@@ -259,6 +244,21 @@ export class FileDataChartComponent implements OnInit {
     );
 
     return resultTreeNodes;
+  }
+  saveChart(){
+    const ref = this.dialogService.open(FileDataDynamicDialogComponent, {
+      header: 'Give a name',
+      width: '70%'
+    })
+   
+    ref.onClose.subscribe((chartName:string) => {
+      if(chartName){
+        console.log("chartName=" + chartName);
+      }
+    });
+    //add chart name 
+   // this.chartRequet
+
   }
 
   exportChart(){
@@ -307,3 +307,5 @@ sidebarSave(){
 
 
 }
+
+

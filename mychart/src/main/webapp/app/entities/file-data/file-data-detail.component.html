@@ -1,0 +1,68 @@
+<div class="row justify-content-center">
+    <div class="col-10">
+        <div *ngIf="fileData">
+            <h2><span jhiTranslate="newChartsApp.fileData.detail.title">File Data</span> {{fileData.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="newChartsApp.fileData.fileName">File Name</span></dt>
+                <dd>
+                    <span>{{fileData.fileName}}</span>
+                </dd>
+                <dt><span jhiTranslate="newChartsApp.fileData.title">Title</span></dt>
+                <dd>
+                    <span>{{fileData.title}}</span>
+                </dd>
+                <dt><span jhiTranslate="newChartsApp.fileData.timestamp">Timestamp</span></dt>
+                <dd>
+                    <span>{{fileData.timestamp}}</span>
+                </dd>
+                <dt><span jhiTranslate="newChartsApp.fileData.series">Series</span></dt>
+                <dd>
+                    <ul *ngFor="let series of fileData.seriesList">
+                        <li>{{series.value}} - {{series.title}}</li>
+                    </ul>
+                </dd>
+                <dt><span jhiTranslate="newChartsApp.fileData.data">Data</span></dt>
+                <dd>
+                    <p-table [columns]="headers" [value]="dataLines" [scrollable]="true" [style]="{width:'1500px'}" scrollHeight="500px">
+                        <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                                <col *ngFor="let col of columns" style="width:150px">
+                            </colgroup>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>      
+                                <th  *ngFor="let col of columns">
+                                        {{col.title}}      
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-row let-columns="columns">
+                                <tr>
+                                    <td *ngFor="let col of columns; index as j" >
+                                        <i [ngClass]="getCellClass(row.data[j])">{{row.data[j]}}</i>
+                                        
+                                    </td>
+                                </tr>
+                        </ng-template>
+                    </p-table>
+
+                </dd>
+            </dl>
+            
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/file-data', fileData.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+            <button type="button" (click)="showInfo()"  pButton icon="pi pi-info-circle" label="Info"></button>
+        </div>
+    </div>
+</div>

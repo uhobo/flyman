@@ -161,12 +161,12 @@ public class FileDataResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
     
-    @GetMapping("/file-data/createTreeMenu/{id}/{subjectType}")
-    public ResponseEntity<List<TreeNode>> createTreeMenu(@PathVariable String id, @PathVariable Integer subjectType){
+    @GetMapping("/file-data/createTreeMenu/{id}/{subjectType}/{menuByGroup}")
+    public ResponseEntity<List<TreeNode>> createTreeMenu(@PathVariable String id, @PathVariable Integer subjectType, @PathVariable Boolean menuByGroup){
     	log.debug("REST request to createTreeMenu FileData : {}, Subject: {}", id, subjectType);
     	Optional<List<TreeNode>> treeNode = null;
 		try {
-			treeNode = this.chartService.createTreeTable(id, subjectType);
+			treeNode = this.chartService.createTreeTable(id, subjectType, menuByGroup);
 		} catch (JsonProcessingException e) {
 			log.error("Faild to handle request", e);
 			e.printStackTrace();
@@ -216,7 +216,7 @@ public class FileDataResource {
 			log.error("Failed getChartPackage", e);
 		}
 //    	try {
-//    		
+//    		 	
 //    		
 //    		
 //    		if(chartResponse.getChartTypeStr().equals("bar")) {

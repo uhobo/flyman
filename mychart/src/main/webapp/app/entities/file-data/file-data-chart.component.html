@@ -1,0 +1,89 @@
+<div class="row justify-content-center">
+    <div class="col-10">
+            <h2><span jhiTranslate="newChartsApp.fileData.detail.title">File Data</span> {{fileData.title}}</h2>
+            <hr>
+            <div class="ui-g"> 
+                <jhi-alert-error></jhi-alert-error>
+                <div class="ui-g-4">
+                    <label class="form-control-label" jhiTranslate="newChartsApp.fileData.subject"  for="field_subject">Subject</label>
+                    <p-dropdown id="field_subject" [options]="subjectlist" [(ngModel)]="selectedSubject" (onChange)="setTreeFields()"></p-dropdown>
+                </div> 
+
+                <div class="ui-g-4" [hidden]="chartTypeHidden">   
+                    <label jhiTranslate="newChartsApp.fileData.chartType" for="field_chartType">Chart Type</label>
+                    <p-dropdown id="field_chartType" [options]="chartTypelist" [(ngModel)]="selectedChartType" (onChange)="setTreeFields()"></p-dropdown>
+                </div>       
+            </div>
+            <div>
+                <p-chart [type]="chartReponse.chartTypeStr" [data]="chartReponse.data" [options]="chartReponse.options" [plugins]="myPlugins"></p-chart>
+            </div>
+           
+            <button type="submit"
+            
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    (click)="showChart()"
+                    class="btn btn-primary">
+                    <fa-icon [icon]="'eye'"></fa-icon>
+                    &nbsp;<span jhiTranslate="entity.action.view"> View</span>
+            </button>
+            <button type="button"
+            (click)="visibleSidebar1 = true" 
+            class="btn btn-primary">
+            <fa-icon [icon]="'filter'"></fa-icon>
+                &nbsp;<span jhiTranslate="entity.action.filter"> Filter</span>
+            </button>
+            <button type="button"
+            (click)="exportChart()"
+            class="btn btn-primary">
+            <fa-icon [icon]="'file-excel'"></fa-icon>
+            &nbsp;<span jhiTranslate="entity.action.excel"> Export Excel</span>
+            </button>
+            <button (click)="saveChart()" id="save-entity" class="btn btn-primary">
+                <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+            </button>
+            </div>
+
+   
+    </div>
+</div>
+<p-sidebar [(visible)]="visibleSidebar1"  position = "left" styleClass="ui-sidebar-lg" [style]="{'overflow': 'scroll'}">
+        
+        <div class="ui-g" *ngIf="checkBoxstatisticsHidden === false">
+                <div class="ui-g-4" >
+                        <p-checkbox  name="averageCheckBox" [value]="averageCheckBox.value" [label]="averageCheckBox.label" 
+                        [(ngModel)]="isSelectAverageCheckBox" ></p-checkbox>
+                </div>
+                <div class="ui-g-4" >
+                    <p-checkbox  name="medianCheckBox" [value]="medianCheckBox.value" [label]="medianCheckBox.label" 
+                        [(ngModel)]="isSelectMedianCheckBox"></p-checkbox>
+                </div>    
+        </div>
+        <div class="ui-g" >
+            <div class="ui-g-4">
+                <p-checkbox  name="distributionCheckBox" [value]="distributionCheckBox.value" [label]="distributionCheckBox.label" 
+                [(ngModel)]="isSelectDistribution" ></p-checkbox>
+            </div>
+            <div class="ui-g-4" *ngIf="checkBoxGroupHidden === false">
+                <p-checkbox  name="groupCheckBox" [value]="groupCheckBox.value" [label]="groupCheckBox.label" 
+                [(ngModel)]="isSelectGroupCheckBox" (onChange)="setTreeFields()"></p-checkbox>
+            </div>  
+        </div>
+        <div class="ui-lg" *ngIf="checkBoxListXHidden === false" >          
+                <div class="ui-lg-6">
+                    <p-tree [value]="axisXTree" selectionMode="checkbox" [(selection)]="selectedXnodes" [style]="{'width':'100%'}" ></p-tree>
+                </div>
+        </div> 
+        <div *ngIf="checkBoxListYHidden === false" class="ui-lg"> 
+                <div class="ui-lg-6">
+                <p-tree [value]="axisYTree" selectionMode="checkbox" [(selection)]="selectedYnodes" [style]="{'width':'100%'}" ></p-tree> 
+            </div>  
+       </div>
+        <button pButton type="button" (click)="sidebarSave()" label="Save" class="ui-button-success"></button>
+        <button pButton type="button" (click)="visibleSidebar1 = false" label="Cancel" class="ui-button-secondary"></button>
+</p-sidebar>
+<p-growl [value]="msgs"></p-growl>    

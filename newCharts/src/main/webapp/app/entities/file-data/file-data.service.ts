@@ -67,8 +67,8 @@ export class FileDataService {
   
   
   
-  createTreeMenu(id: String,subjectType: number):Promise<HttpResponse<TreeNode[]>>{
-    return this.http.get<TreeNode[]>(`${this.resourceUrl}/createTreeMenu/${id}/${subjectType}`,  { observe: 'response' }).toPromise(); 
+  createTreeMenu(id: String,subjectType: number, isSelectGroupCheckBox: boolean):Promise<HttpResponse<TreeNode[]>>{
+    return this.http.get<TreeNode[]>(`${this.resourceUrl}/createTreeMenu/${id}/${subjectType}/${isSelectGroupCheckBox}`,  { observe: 'response' }).toPromise(); 
   }
   // export2ExcelFile(chartData: ChartRequet): Observable<ExportResponseType>{
   //   return this.http.post<ExportExcelFile>(`${this.resourceUrl}/chartData`, ChartRequet, { observe: 'response' })

@@ -1,0 +1,16 @@
+version: '2'
+services:
+  mychart-mongodb:
+    image: mongo:4.0.13
+    ports:
+      - '27017:27017'
+    command: mongos --configdb mychart-mongodb-config
+  mychart-mongodb-node:
+    build:
+      context: .
+      dockerfile: mongodb/MongoDB.Dockerfile
+    command: mongod --replSet rs1 --noprealloc --smallfiles
+  mychart-mongodb-config:
+    image: mongo:4.0.13
+    container_name: mychart-mongodb-config
+    command: mongod --noprealloc --smallfiles --configsvr --dbpath /data/db
