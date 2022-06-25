@@ -4,8 +4,9 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
-import java.util.regex.Pattern;
+import java.util.Set;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -22,10 +23,13 @@ public class Consumer implements Runnable {
 	private KafkaConsumer<?, ?> kafkaConsumer;
 	private Properties properties = new Properties();
 	private List<String> topics = new ArrayList<String>();
+	private Integer myId;
+	private String groupName;
 	
 	
-	
-	public Consumer(String bootstrapServers, String groupName, List<String> topics) {
+	public Consumer(Integer myId, String bootstrapServers, String groupName, List<String> topics) {
+		this.myId = myId;
+		this.groupName = groupName;
         properties.put("bootstrap.servers", bootstrapServers); 
         properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         properties.put("value.deserializer", "il.com.poc.messages.JsonDeserializer");
@@ -41,15 +45,16 @@ public class Consumer implements Runnable {
 	
 	@SuppressWarnings("rawtypes")
     public void run() {
+		Thread.currentThread().setName("Consumer <" + this.myId + "> group <" + this.groupName + ">");
 		properties.put(ConsumerConfig.CLIENT_ID_CONFIG, Thread.currentThread().getName());
 		kafkaConsumer = new KafkaConsumer(properties);
 		kafkaConsumer.subscribe(topics);
-		
 		System.out.println(getMyInfo() + ": Starting consume..."  );
 
         try{
             while (true){
 				try {
+					
 	            	ConsumerRecords records = kafkaConsumer.poll(Duration.ofSeconds(10) );
 					 Iterator itr = records.iterator(); 
 					while(itr.hasNext()) {
@@ -57,6 +62,11 @@ public class Consumer implements Runnable {
 						EventMessage message = (EventMessage) record.value();
 						System.out.println(String.format("%s Topic - %s, Partition - %d", getMyInfo(), record.topic(), record.partition()));
 						System.out.println(message);
+						String command = (String)message.getEventDataMap().get("text");
+						String[] commandArr = command.split(",");
+						if("seek".equals(commandArr[0])) {
+							doSeek(commandArr);
+						}
 						
 					}
 				}catch (SerializationException  e){
@@ -79,6 +89,22 @@ public class Consumer implements Runnable {
             kafkaConsumer.close();
         }
     }
+
+	private void doSeek(String[] commandArr) {
+		System.out.println("["+ Thread.currentThread().getName()+ "] seek command on Topic=" +  commandArr[1] + ", Position=" + commandArr[2]);
+		Set<TopicPartition> partitionsList = kafkaConsumer.assignment();
+		Optional<TopicPartition> myPartition = partitionsList.stream().filter(x -> x.topic().equals(commandArr[1])).findFirst();
+		TopicPartition topicPartition = new TopicPartition(myPartition.get().topic(), myPartition.get().partition());
+		long myPosition = kafkaConsumer.position(topicPartition);
+		System.out.println("["+ Thread.currentThread().getName()+ "] my Partition Number= " + myPartition.get().partition() + " at Position=" + myPosition);
+		long newPosition = Long.valueOf(commandArr[2]);
+		if(newPosition > myPosition) {
+			System.out.println("["+ Thread.currentThread().getName()+ "] Error invalid  input new Position=");
+			return;
+		}
+		
+		kafkaConsumer.seek(topicPartition, newPosition);
+	}
 
 	private String getMyInfo() {
 		StringBuilder builder = new StringBuilder();

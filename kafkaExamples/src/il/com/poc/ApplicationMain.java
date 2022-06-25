@@ -48,6 +48,7 @@ public class ApplicationMain {
 	static Scanner scanner = new Scanner(System.in); 
 	
 	static Map<String, Producer> producerMap = new HashMap<>();
+	static Integer numConsumers = 1;
 	
 	public static void main(String[] args) {
 		Properties properties = new Properties();
@@ -148,7 +149,7 @@ public class ApplicationMain {
 			});
 			
 		});
-		
+		System.out.println(builder.toString());
 		return null;
 	}
 
@@ -185,12 +186,17 @@ public class ApplicationMain {
 	
 	public static void createConsumer() throws InterruptedException, ExecutionException {
 		scanner = new Scanner(System.in);
+		List<String> topicNamesList = new ArrayList<>();
 		
-		System.out.println("Type Topic Name[test1]:");
+		System.out.println("Type Topic Names (topic1,topic2):");
 		String topicName = scanner.nextLine();
 		if(topicName == null || topicName.isEmpty()) {
 			topicName = "test1";
+			topicNamesList.add(topicName);
+		}else {
+			topicNamesList = Arrays.asList(topicName.split(","));
 		}
+		
 		
 		ListConsumerGroupsResult groupList = adminClient.listConsumerGroups();
 		KafkaFuture<Collection<ConsumerGroupListing>> listTemp = groupList.all();
@@ -204,7 +210,7 @@ public class ApplicationMain {
 		
 		System.out.println("Type group id:");
 		String groupId = scanner.nextLine();
-		executor.execute(new Consumer(bootstrapServers, groupId, Arrays.asList(topicName)));
+		executor.execute(new Consumer(numConsumers++,  bootstrapServers, groupId, topicNamesList));
 		//scanner.close();	
 	}
 	

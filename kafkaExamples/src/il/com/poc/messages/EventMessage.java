@@ -33,7 +33,7 @@ public class EventMessage {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("EventMessage [eventName=").append(eventName).append(", eventDataMap=");
+		builder.append("[" + Thread.currentThread().getName() + "] EventMessage [eventName=").append(eventName).append(", eventDataMap=");
 		eventDataMap.forEach((key, value) -> builder.append(key + ":" + value));
 		builder.append("]");
 		return builder.toString();
