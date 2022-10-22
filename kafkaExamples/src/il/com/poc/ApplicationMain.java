@@ -1,5 +1,8 @@
 package il.com.poc;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,6 +29,7 @@ import org.apache.kafka.clients.admin.ListTopicsOptions;
 import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.common.KafkaFuture;
 import org.apache.kafka.common.TopicPartition;
+import org.apache.kafka.common.utils.Bytes;
 
 import il.com.poc.basic.AdminKafka;
 import il.com.poc.basic.Consumer;
@@ -51,6 +55,15 @@ public class ApplicationMain {
 	static Integer numConsumers = 1;
 	
 	public static void main(String[] args) {
+		String stam = "רוני_גלר_שלום_עולם";
+		//byte[] bytes = stam.getBytes(StandardCharsets.UTF_8);
+		Charset win1255 = Charset.forName("windows-1255");
+		ByteBuffer bytes = win1255.encode(stam);
+		String stam2 = new String(bytes.array());
+		stam2 = stam2.replace("_", " " );
+		System.out.println(stam2);
+		
+		
 		Properties properties = new Properties();
 		properties.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 		adminClient = AdminClient.create(properties);

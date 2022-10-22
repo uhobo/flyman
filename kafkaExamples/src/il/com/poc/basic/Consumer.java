@@ -31,8 +31,8 @@ public class Consumer implements Runnable {
 		this.myId = myId;
 		this.groupName = groupName;
         properties.put("bootstrap.servers", bootstrapServers); 
-        properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        properties.put("value.deserializer", "il.com.poc.messages.JsonDeserializer");
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "il.com.poc.messages.JsonDeserializer");
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupName);
         this.topics.addAll(topics);
 	}
